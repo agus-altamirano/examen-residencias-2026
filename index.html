@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Examen Residencias 2026 · Análisis y estudio</title>
+<style>
+  :root{--bg:#0f1115;--card:#1a1d24;--ink:#e8eaed;--muted:#9aa3b2;--line:#2c313c;--accent:#7c9eff;--ok:#34d399}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;min-height:100vh;display:flex;align-items:center}
+  .wrap{max-width:760px;margin:0 auto;padding:48px 22px}
+  h1{font-size:30px;margin:0 0 6px}
+  .sub{color:var(--muted);font-size:15px;margin:0 0 8px}
+  .kpis{display:flex;gap:10px;margin:22px 0 30px;flex-wrap:wrap}
+  .kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 18px}
+  .kpi .n{font-size:24px;font-weight:700}
+  .kpi .l{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+  .ok{color:var(--ok)}
+  .cards{display:grid;gap:16px;grid-template-columns:1fr 1fr}
+  @media(max-width:620px){.cards{grid-template-columns:1fr}}
+  a.card{display:block;text-decoration:none;color:inherit;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;transition:border-color .2s,transform .2s}
+  a.card:hover{border-color:var(--accent);transform:translateY(-2px)}
+  a.card .ico{font-size:30px}
+  a.card h2{font-size:19px;margin:10px 0 4px}
+  a.card p{font-size:14px;color:var(--muted);margin:0}
+  a.card .go{margin-top:14px;font-size:13px;color:var(--accent);font-weight:600}
+  footer{margin-top:34px;font-size:12px;color:var(--muted)}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>🩺 Examen de Residencias 2026</h1>
+    <p class="sub">Concurso de Ingreso a Residencias de la Ciudad de Buenos Aires · Variante Q6L9JB</p>
+    <p class="sub">Análisis de resultados, estadística por especialidad y material de repaso.</p>
+
+    <div class="kpis">
+      <div class="kpi"><div class="n">100</div><div class="l">Preguntas</div></div>
+      <div class="kpi"><div class="n ok">68</div><div class="l">Correctas</div></div>
+      <div class="kpi"><div class="n">68%</div><div class="l">Puntaje</div></div>
+      <div class="kpi"><div class="n">✅</div><div class="l">Grilla verificada</div></div>
+    </div>
+
+    <div class="cards">
+      <a class="card" href="analisis.html">
+        <div class="ico">📊</div>
+        <h2>Análisis del examen</h2>
+        <p>Rendimiento por área y subespecialidad, patrones de error y la justificación de las 32 preguntas incorrectas.</p>
+        <div class="go">Ver análisis →</div>
+      </a>
+      <a class="card" href="material.html">
+        <div class="ico">📚</div>
+        <h2>Material de estudio</h2>
+        <p>32 flashcards interactivas sobre lo fallado y los 10 temas de mayor rinde para reforzar.</p>
+        <div class="go">Ir a estudiar →</div>
+      </a>
+    </div>
+
+    <footer>Generado a partir del detalle de respuestas del sistema · grilla escaneada verificada.</footer>
+  </div>
+</body>
+</html>

@@ -1,0 +1,521 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Análisis Examen Residencias 2026</title>
+<style>
+  :root{
+    --bg:#0f1115; --card:#1a1d24; --card2:#21252e; --ink:#e8eaed; --muted:#9aa3b2;
+    --ok:#34d399; --bad:#f87171; --warn:#fbbf24; --line:#2c313c; --accent:#7c9eff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+  .wrap{max-width:1000px;margin:0 auto;padding:28px 20px 80px}
+  h1{font-size:26px;margin:0 0 4px}
+  h2{font-size:20px;margin:38px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+  h3{font-size:16px;margin:22px 0 8px;color:var(--accent)}
+  .sub{color:var(--muted);font-size:14px;margin:0 0 6px}
+  .grid{display:grid;gap:14px}
+  .kpis{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));margin-top:18px}
+  .kpi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+  .kpi .n{font-size:30px;font-weight:700}
+  .kpi .l{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+  .ok{color:var(--ok)} .bad{color:var(--bad)} .warn{color:var(--warn)}
+  .note{background:#2a2410;border:1px solid #5a4a14;border-radius:12px;padding:14px 16px;font-size:14px;color:#f2e3b0;margin:18px 0}
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--muted);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.05em}
+  .barrow td{padding:6px 10px}
+  .bar{height:10px;border-radius:6px;background:linear-gradient(90deg,var(--ok),var(--ok));position:relative}
+  .bartrack{background:#2c313c;border-radius:6px;overflow:hidden;height:10px;width:100%}
+  .scroller{overflow-x:auto;border:1px solid var(--line);border-radius:12px}
+  .pill{display:inline-block;font-size:11px;padding:2px 8px;border-radius:20px;font-weight:600}
+  .pill.ok{background:rgba(52,211,153,.15);color:var(--ok)}
+  .pill.bad{background:rgba(248,113,113,.15);color:var(--bad)}
+  .ex{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--bad);border-radius:10px;padding:14px 16px;margin:12px 0}
+  .ex .q{font-weight:700;font-size:15px}
+  .ex .tag{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+  .ex .ans{font-size:13px;margin:8px 0;padding:8px 10px;background:var(--card2);border-radius:8px}
+  .ex .ans b{font-weight:600}
+  .ex p{margin:8px 0 0;font-size:14px}
+  .ex .why{margin-top:8px;font-size:13.5px;color:var(--muted)}
+  .ex .why b{color:var(--ink)}
+  details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:4px 16px;margin-top:10px}
+  summary{cursor:pointer;padding:12px 0;font-weight:600}
+  .legend{font-size:12px;color:var(--muted);margin-top:6px}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:640px){.two{grid-template-columns:1fr}}
+  code{background:var(--card2);padding:1px 6px;border-radius:5px;font-size:13px}
+</style>
+
+<div class="wrap">
+  <h1>🩺 Análisis del Examen de Residencias 2026</h1>
+  <p class="sub">Variante Q6L9JB · Fecha examen 28/04/2026 · Grillas actualizadas al 19/06/2026</p>
+  <p class="sub">Análisis basado en el detalle de respuestas registrado por el sistema (100 preguntas) · grilla verificada.</p>
+
+  <div class="note" style="background:#10241a;border-color:#1f5a3a;color:#bff2d6">
+    ✅ <b>Verificación grilla vs. sistema: OK.</b> Se cruzó la grilla escaneada (Buono, Gustavo F. · DNI 38.683.328)
+    contra el detalle registrado por el sistema: las 100 marcas coinciden. El puntaje <b>68/100</b> está confirmado.
+  </div>
+
+  <div class="grid kpis">
+    <div class="kpi"><div class="n">100</div><div class="l">Preguntas</div></div>
+    <div class="kpi"><div class="n ok">68</div><div class="l">Correctas</div></div>
+    <div class="kpi"><div class="n bad">32</div><div class="l">Incorrectas</div></div>
+    <div class="kpi"><div class="n">68%</div><div class="l">Puntaje</div></div>
+  </div>
+
+  <h2>📊 Rendimiento por área mayor</h2>
+  <p class="sub">Estructura típica de blueprint de residencias (Clínica, Pediatría, Cirugía, Toco-Ginecología, Salud Pública, Medicina Legal).</p>
+  <div class="scroller">
+    <table>
+      <thead><tr><th>Área</th><th>Total</th><th>Correctas</th><th>% acierto</th><th style="width:34%">Visual</th></tr></thead>
+      <tbody>
+        <tr class="barrow"><td>Medicina Legal / Bioética</td><td>2</td><td>2</td><td class="ok">100%</td><td><div class="bartrack"><div class="bar" style="width:100%;background:var(--ok)"></div></div></td></tr>
+        <tr class="barrow"><td>Obstetricia</td><td>4</td><td>3</td><td class="ok">75%</td><td><div class="bartrack"><div class="bar" style="width:75%;background:var(--ok)"></div></div></td></tr>
+        <tr class="barrow"><td>Salud Pública / Epidemiología</td><td>4</td><td>3</td><td class="ok">75%</td><td><div class="bartrack"><div class="bar" style="width:75%;background:var(--ok)"></div></div></td></tr>
+        <tr class="barrow"><td>Clínica Médica</td><td>51</td><td>37</td><td class="warn">73%</td><td><div class="bartrack"><div class="bar" style="width:73%;background:var(--warn)"></div></div></td></tr>
+        <tr class="barrow"><td>Cirugía</td><td>10</td><td>6</td><td class="bad">60%</td><td><div class="bartrack"><div class="bar" style="width:60%;background:var(--bad)"></div></div></td></tr>
+        <tr class="barrow"><td>Ginecología</td><td>10</td><td>6</td><td class="bad">60%</td><td><div class="bartrack"><div class="bar" style="width:60%;background:var(--bad)"></div></div></td></tr>
+        <tr class="barrow"><td>Pediatría</td><td>19</td><td>11</td><td class="bad">58%</td><td><div class="bartrack"><div class="bar" style="width:58%;background:var(--bad)"></div></div></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="legend">En valor absoluto, <b>Pediatría</b> concentra la mayor cantidad de errores (8), seguida de Cirugía y Ginecología (4 cada una).</p>
+
+  <h2>🔬 Detalle dentro de Clínica Médica</h2>
+  <div class="scroller">
+    <table>
+      <thead><tr><th>Subespecialidad</th><th>Total</th><th>Correctas</th><th>Incorrectas</th><th>% acierto</th></tr></thead>
+      <tbody>
+        <tr><td>Endocrinología</td><td>4</td><td>4</td><td>0</td><td class="ok">100%</td></tr>
+        <tr><td>Infectología</td><td>6</td><td>6</td><td>0</td><td class="ok">100%</td></tr>
+        <tr><td>Hematología</td><td>3</td><td>3</td><td>0</td><td class="ok">100%</td></tr>
+        <tr><td>Neurología</td><td>5</td><td>5</td><td>0</td><td class="ok">100%</td></tr>
+        <tr><td>Cuidados Paliativos / Geriatría</td><td>2</td><td>2</td><td>0</td><td class="ok">100%</td></tr>
+        <tr><td>Nefrología / Medio interno</td><td>5</td><td>4</td><td>1</td><td class="warn">80%</td></tr>
+        <tr><td>Cardiología</td><td>13</td><td>8</td><td>5</td><td class="bad">62%</td></tr>
+        <tr><td>Neumonología</td><td>5</td><td>3</td><td>2</td><td class="bad">60%</td></tr>
+        <tr><td>Gastroenterología</td><td>5</td><td>2</td><td>3</td><td class="bad">40%</td></tr>
+        <tr><td>Reumatología</td><td>1</td><td>0</td><td>1</td><td class="bad">0%</td></tr>
+        <tr><td>Psiquiatría</td><td>1</td><td>0</td><td>1</td><td class="bad">0%</td></tr>
+        <tr><td>Toxicología / Adicciones</td><td>1</td><td>0</td><td>1</td><td class="bad">0%</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="legend">Dentro de Clínica, <b>Cardiología</b> (5 errores) y <b>Gastroenterología</b> (3 errores, 60% de error) son las áreas con más margen de mejora.</p>
+
+  <h2>🎯 Patrones de error (lo que conviene reforzar)</h2>
+  <div class="two">
+    <div class="kpi">
+      <h3 style="margin-top:0">Principios transversales fallados</h3>
+      <ul style="margin:0;padding-left:18px;font-size:14px">
+        <li><b>Estabilizar antes de diagnosticar/intervenir</b> (HDA Q46, hiperK Q53, FA aguda Q41).</li>
+        <li><b>Banderas rojas</b> que descartan diagnóstico funcional (SII vs EII, Q20).</li>
+        <li><b>Conservador / step-up antes de invasivo</b> (angina estable Q65, pancreatitis Q32, HBP Q11, diverticulitis Q89).</li>
+        <li><b>Criterios de riesgo en tamizaje</b> (mama alto riesgo Q9/Q60, densitometría Q80).</li>
+      </ul>
+    </div>
+    <div class="kpi">
+      <h3 style="margin-top:0">Pediatría — manejo agudo</h3>
+      <ul style="margin:0;padding-left:18px;font-size:14px">
+        <li>Anafilaxia → <b>adrenalina IM</b> (Q39).</li>
+        <li>Bronquiolitis → soporte/<b>O₂</b>, no ATB ni broncodilatadores de rutina (Q66).</li>
+        <li>Crup leve → <b>corticoide oral</b> (Q77).</li>
+        <li>ITU → urocultivo + <b>ATB empírico sin demora</b> (Q72).</li>
+        <li>Guías SAP: chupete y sueño seguro (Q68), ferropenia severa (Q84).</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>📝 Justificación de las 32 preguntas incorrectas</h2>
+  <p class="sub">Por qué la opción marcada como correcta lo es, y por qué se descartan las demás.</p>
+
+  <h3>Pediatría (8)</h3>
+
+  <div class="ex">
+    <div class="tag">Q39 · Alergia / Emergencia pediátrica</div>
+    <div class="q">Anafilaxia tras vacuna de varicela (15 meses)</div>
+    <div class="ans">Marcaste <b class="bad">A. Hidrocortisona EV + difenhidramina</b> · Correcta: <b class="ok">C. Oxígeno + adrenalina IM</b></div>
+    <p>La <b>adrenalina IM</b> (cara anterolateral del muslo) es el tratamiento de primera línea y no debe demorarse; revierte broncoespasmo, edema e hipotensión.</p>
+    <p class="why"><b>A:</b> corticoides y antihistamínicos son adyuvantes de segunda línea, no salvan la vida ni actúan rápido. <b>B:</b> adrenalina <i>EV</i> se reserva para shock refractario con monitoreo; la vía inicial es IM. <b>D:</b> salbutamol solo no trata el componente sistémico/hipotensión.</p>
+  </div>
+
+  <div class="ex">
+    <div class="tag">Q66 · Neumonología pediátrica · SAP 2021</div>
+    <div class="q">Bronquiolitis, 3 meses, SatO₂ 91%, dificultad respiratoria, ↓ingesta</div>
+    <div class="ans">Marcaste <b class="bad">A. Amoxicilina oral</b> · Correcta: <b class="ok">D. Oxígeno suplementario</b></div>
+    <p>Es una enfermedad <b>viral</b>; el manejo es de soporte. Con hipoxemia (&lt;92–93%) y compromiso de la ingesta corresponde <b>O₂ e internación</b>.</p>
+    <p class="why"><b>A:</b> los ATB no tienen lugar en la bronquiolitis no complicada. <b>B:</b> los broncodilatadores no se recomiendan de rutina (SAP 2021). <b>C:</b> el manejo ambulatorio no es seguro con SatO₂ 91% y rechazo del alimento.</p>
+  </div>
+
+  <div class="ex">
+    <div class="tag">Q68 · Sueño seguro · SAP</div>
+    <div class="q">Chupete durante el sueño, lactante de 50 días con LME establecida</div>
+    <div class="ans">Marcaste <b class="bad">B. Solo en siestas diurnas supervisadas</b> · Correcta: <b class="ok">D. Ofrecer al inicio de cada período de sueño</b></div>
+    <p>Una vez consolidada la lactancia (~3–4 semanas) se recomienda ofrecer chupete <b>al inicio de cada sueño</b> por su efecto protector frente a la muerte súbita.</p>
+    <p class="why"><b>A y C:</b> no hay que negarlo por LME ni por ser &lt;3 meses; la lactancia ya está bien establecida. <b>B:</b> limitarlo a siestas diurnas no refleja la recomendación (la protección es en todo período de sueño).</p>
+  </div>
+
+  <div class="ex">
+    <div class="tag">Q72 · Nefro-urología pediátrica</div>
+    <div class="q">ITU baja, niña de 7 años, primer episodio, sin fiebre</div>
+    <div class="ans">Marcaste <b class="bad">D. Eco + urocultivo y esperar resultado</b> · Correcta: <b class="ok">B. Sedimento + urocultivo e iniciar ATB empírico</b></div>
+    <p>Ante clínica de ITU se toma muestra (sedimento + urocultivo) y se <b>inicia ATB empírico sin demorar</b> el tratamiento.</p>
+    <p class="why"><b>A:</b> tratamiento solo sintomático es insuficiente para una ITU. <b>C:</b> derivar a ginecología no corresponde. <b>D:</b> la ecografía no se pide de rutina en primer episodio de ITU baja afebril, y no hay que esperar el cultivo para tratar.</p>
+  </div>
+
+  <div class="ex">
+    <div class="tag">Q77 · Vía aérea pediátrica</div>
+    <div class="q">Crup (laringitis) leve: tos perruna, estridor solo con el llanto, sin tiraje</div>
+    <div class="ans">Marcaste <b class="bad">D. Solución fisiológica nebulizada</b> · Correcta: <b class="ok">B. Corticoide oral</b></div>
+    <p>El <b>corticoide oral</b> (dexametasona, dosis única) está indicado incluso en el crup leve: reduce síntomas y consultas.</p>
+    <p class="why"><b>A:</b> es viral, no requiere ATB. <b>C:</b> el salbutamol sirve para broncoespasmo, no para obstrucción laríngea. <b>D:</b> la nebulización con SF no modifica el curso. (La adrenalina nebulizada se reserva para estridor en reposo / moderado-grave.)</p>
+  </div>
+
+  <div class="ex">
+    <div class="tag">Q84 · Hematología pediátrica · SAP</div>
+    <div class="q">Lactante 11 m con bronquiolitis e hipoxemia, Hb 7 g/dL (ferropénica)</div>
+    <div class="ans">Marcaste <b class="bad">C. Sulfato ferroso oral 6 mg/kg/día</b> · Correcta: <b class="ok">A. Transfusión de glóbulos rojos</b></div>
+    <p>Anemia severa (Hb 7) <b>con compromiso respiratorio/hipoxemia</b> → la conducta inicial es <b>transfundir</b> para mejorar el transporte de O₂.</p>
+    <p class="why"><b>C:</b> el hierro oral es el tratamiento de la ferropenia <i>estable</i>, pero corrige lento (no sirve en la urgencia actual). <b>B:</b> el hierro parenteral tampoco resuelve la anemia aguda sintomática. <b>D:</b> la conducta expectante es inadecuada con hipoxemia.</p>
+  </div>
+
+  <div class="ex">
+    <div class="tag">Q90 · Ortopedia pediátrica</div>
+    <div class="q">Cojera, 6 años, post-catarro, limitación de rotación interna/abducción, labs normales</div>
+    <div class="ans">Marcaste <b class="bad">B. Artrocentesis de cadera</b> · Correcta: <b class="ok">D. Ecografía de caderas</b></div>
+    <p>Cuadro de <b>sinovitis transitoria</b>. El estudio siguiente es la <b>ecografía</b>, que detecta derrame articular y orienta el manejo de forma no invasiva.</p>
+    <p class="why"><b>B:</b> la artrocentesis se reserva si se sospecha artritis séptica (afebril + labs normales la hacen poco probable). <b>C:</b> la radiografía suele ser normal y rinde menos para derrame. <b>A:</b> la RMN no es el primer estudio.</p>
+  </div>
+
+  <div class="ex">
+    <div class="tag">Q96 · Parasitología pediátrica</div>
+    <div class="q">Prurito anal nocturno + gusanos blancos móviles de ~1 cm perianales (5 años)</div>
+    <div class="ans">Marcaste <b class="bad">C. Teniasis</b> · Correcta: <b class="ok">B. Enterobiasis (oxiuros)</b></div>
+    <p><i>Enterobius vermicularis</i>: gusanos <b>blancos, pequeños, móviles</b>, con prurito anal de predominio nocturno. Cuadro patognomónico.</p>
+    <p class="why"><b>C:</b> la tenia elimina proglótides (segmentos planos), no gusanos móviles perianales. <b>A:</b> el áscaris es grande y da clínica intestinal. <b>D:</b> la giardiasis cursa con diarrea/malabsorción, sin gusanos visibles.</p>
+  </div>
+
+  <h3>Cardiología (5)</h3>
+
+  <div class="ex">
+    <div class="tag">Q41 · Fibrilación auricular aguda</div>
+    <div class="q">FA de 7 h, hemodinámicamente estable, sin descompensación</div>
+    <div class="ans">Marcaste <b class="bad">C. Digoxina 0,5 mg IV + ACO</b> · Correcta: <b class="ok">A. Control de frecuencia con betabloqueantes + ACO</b></div>
+    <p>En FA estable, la conducta inicial es <b>control de frecuencia con betabloqueantes</b> y anticoagulación según riesgo.</p>
+    <p class="why"><b>C:</b> la digoxina es menos eficaz y se reserva para insuficiencia cardíaca/hipotensión. <b>B:</b> la cardioversión inmediata es para inestabilidad hemodinámica. <b>D:</b> ETE + cardioversión no es la estrategia inicial en un paciente estable.</p>
+  </div>
+
+  <div class="ex">
+    <div class="tag">Q49 · Prevención cardiovascular secundaria</div>
+    <div class="q">Post-IAM con stent, abandonó estatinas, LDL 88 mg/dL</div>
+    <div class="ans">Marcaste <b class="bad">D. Estatina moderada + ezetimibe</b> · Correcta: <b class="ok">B. Estatina de alta intensidad</b></div>
+    <p>Enfermedad ateroesclerótica establecida → <b>estatina de alta intensidad</b> de entrada, independientemente del LDL basal.</p>
+    <p class="why"><b>A:</b> solo medidas higiénico-dietéticas es insuficiente en prevención secundaria. <b>C:</b> baja intensidad subdosifica el riesgo. <b>D:</b> ezetimibe se agrega <i>después</i> si no se llega a la meta con estatina de alta intensidad.</p>
+  </div>
+
+  <div class="ex">
+    <div class="tag">Q59 · HTA · MAPA</div>
+    <div class="q">Consultorio normal (128/78) pero MAPA elevada (diurno 138/86) + HVI</div>
+    <div class="ans">Marcaste <b class="bad">C. Normotensión</b> · Correcta: <b class="ok">A. Hipertensión arterial oculta</b></div>
+    <p><b>HTA oculta (enmascarada)</b>: PA normal en consultorio pero elevada fuera de él (diurno ≥135/85, 24 h ≥130/80). La HVI confirma daño de órgano blanco.</p>
+    <p class="why"><b>C:</b> no es normotensión porque el MAPA está alterado y hay HVI. <b>B:</b> el consultorio no está elevado. <b>D:</b> el guardapolvo blanco es lo opuesto (consultorio alto, ambulatorio normal).</p>
+  </div>
+
+  <div class="ex">
+    <div class="tag">Q61 · HTA · Tratamiento</div>
+    <div class="q">HTA confirmada 156/96 pese a medidas no farmacológicas, sin ERC ni DBT</div>
+    <div class="ans">Marcaste <b class="bad">A. Ajustar no farmacológico y control en 6 meses</b> · Correcta: <b class="ok">B. Combinación de 2 antihipertensivos a dosis bajas</b></div>
+    <p>HTA grado 2 (≥150–160) que no responde a medidas: las guías favorecen <b>iniciar con combinación de dos fármacos a dosis bajas</b>.</p>
+    <p class="why"><b>A:</b> ya falló el manejo no farmacológico; demorar 6 meses es inadecuado. <b>C:</b> IECA + ARA II está contraindicado (doble bloqueo del SRAA). <b>D:</b> la monoterapia rinde menos para estas cifras.</p>
+  </div>
+
+  <div class="ex">
+    <div class="tag">Q65 · Cardiopatía isquémica estable</div>
+    <div class="q">Angina estable (umbral fijo >1 año), estenosis 75% de DA, función VI normal</div>
+    <div class="ans">Marcaste <b class="bad">D. ICP con stent farmacoactivo</b> · Correcta: <b class="ok">B. Tratamiento médico (β-bloqueante, estatina, AAS)</b></div>
+    <p>En angina <b>estable</b> con función conservada, el tratamiento médico óptimo es la primera conducta (la revascularización no mejora la sobrevida en este escenario — COURAGE/ISCHEMIA).</p>
+    <p class="why"><b>A:</b> la cirugía (CRM) es para tronco/3 vasos/FE baja. <b>C y D:</b> la ICP (con o sin droga) se reserva si persisten síntomas pese a tratamiento médico o ante anatomía de alto riesgo.</p>
+  </div>
+
+  <h3>Gastroenterología (3)</h3>
+
+  <div class="ex">
+    <div class="tag">Q20 · Banderas rojas</div>
+    <div class="q">Dolor abdominal "tipo SII" pero con diarrea nocturna, anemia (Hto 32%) y VSG 44</div>
+    <div class="ans">Marcaste <b class="bad">C. Antiespasmódicos + dieta baja en FODMAP</b> · Correcta: <b class="ok">D. Videocolonoscopia</b></div>
+    <p>Hay <b>signos de alarma</b> (deposiciones nocturnas, anemia, VSG elevada) que <b>excluyen</b> el diagnóstico de SII y obligan a estudiar organicidad (EII, neoplasia) con colonoscopia.</p>
+    <p class="why"><b>A, B, C:</b> son manejos de SII, que requiere ausencia de banderas rojas. Tratar como funcional sin descartar enfermedad orgánica sería un error.</p>
+  </div>
+
+  <div class="ex">
+    <div class="tag">Q26 · Hepatología · ascitis</div>
+    <div class="q">Cirrosis alcohólica, ascitis, GASA 2,0 g/dL (hipertensión portal)</div>
+    <div class="ans">Marcaste <b class="bad">B. Restricción hídrica + furosemida</b> · Correcta: <b class="ok">D. Espironolactona + restricción de sodio</b></div>
+    <p>El tratamiento de primera línea de la ascitis cirrótica es <b>restricción de sodio + espironolactona</b> (diurético de elección inicial).</p>
+    <p class="why"><b>B:</b> la restricción hídrica solo se usa ante hiponatremia; la furosemida se <i>agrega</i> después, no sola. <b>A:</b> la paracentesis evacuadora es para ascitis a tensión/refractaria. <b>C:</b> la profilaxis con ciprofloxacina (proteínas bajas en líquido) es complementaria, no el tratamiento inicial.</p>
+  </div>
+
+  <div class="ex">
+    <div class="tag">Q46 · Hemorragia digestiva alta</div>
+    <div class="q">Melena por AINE con shock (TA 80/60, FC 112, palidez, diaforesis)</div>
+    <div class="ans">Marcaste <b class="bad">A. Endoscopia digestiva alta urgente</b> · Correcta: <b class="ok">C. Reposición con cristaloides + tipificar y reservar sangre</b></div>
+    <p>Primero se <b>estabiliza hemodinámicamente</b> (ABC: volumen + reserva de sangre). La endoscopia se realiza una vez compensado el paciente.</p>
+    <p class="why"><b>A y B:</b> la endoscopia (diagnóstica o terapéutica) y el IBP van <i>después</i> de la reanimación. <b>D:</b> la TC no es el paso inicial en una HDA con shock.</p>
+  </div>
+
+  <h3>Ginecología (4)</h3>
+
+  <div class="ex">
+    <div class="tag">Q6 · Prevención de cáncer cervicouterino</div>
+    <div class="q">Post-conización por HSIL: asesoramiento sobre vacuna VPH</div>
+    <div class="ans">Marcaste <b class="bad">A. No indicar vacunación contra el VPH</b> · Correcta: <b class="ok">B. Vacunación contra el VPH en esquema de 3 dosis</b></div>
+    <p>La vacuna VPH <b>post-tratamiento de HSIL</b> reduce el riesgo de recurrencia de la lesión; en este contexto (adulta tratada) corresponde esquema de <b>3 dosis</b>.</p>
+    <p class="why"><b>A:</b> negar la vacuna desaprovecha el beneficio adyuvante. <b>C:</b> no se condiciona a una nueva lesión. <b>D:</b> no se difiere hasta terminar el seguimiento.</p>
+  </div>
+
+  <div class="ex">
+    <div class="tag">Q9 · Tamizaje de cáncer de mama · Consenso 2021</div>
+    <div class="q">Linfoma de Hodgkin tratado con radioterapia torácica a los 22 años</div>
+    <div class="ans">Marcaste <b class="bad">D. Riesgo intermedio</b> · Correcta: <b class="ok">C. Riesgo alto</b></div>
+    <p>La <b>radioterapia torácica entre los 10 y 30 años</b> es un criterio definido de <b>alto riesgo</b> (tamizaje intensificado con RM + mamografía, comenzando ~8–10 años post-RT).</p>
+    <p class="why"><b>A y B:</b> el antecedente de RT torácica saca a la paciente del riesgo bajo/promedio. <b>D:</b> "intermedio" subestima el riesgo establecido por la RT.</p>
+  </div>
+
+  <div class="ex">
+    <div class="tag">Q60 · Tamizaje en alto riesgo · BRCA1</div>
+    <div class="q">Portadora de mutación BRCA1 confirmada</div>
+    <div class="ans">Marcaste <b class="bad">C. Mamografía bilateral bianual</b> · Correcta: <b class="ok">B. RM mamaria con contraste anual</b></div>
+    <p>En alto riesgo (BRCA) el método de elección a incorporar es la <b>resonancia mamaria con contraste anual</b> (mayor sensibilidad), habitualmente combinada con mamografía.</p>
+    <p class="why"><b>A:</b> el control clínico no reemplaza imágenes. <b>C:</b> la mamografía bianual es insuficiente para este riesgo (la RM es la clave). <b>D:</b> la ecografía no es el tamizaje principal en BRCA.</p>
+  </div>
+
+  <div class="ex">
+    <div class="tag">Q80 · Salud ósea · FASGO 2024</div>
+    <div class="q">57 años, posmenopáusica, tabaquista, IMC 18,9 (bajo peso), sedentaria</div>
+    <div class="ans">Marcaste <b class="bad">C. Diferir densitometría y reevaluar</b> · Correcta: <b class="ok">A. Indicar densitometría ósea ahora</b></div>
+    <p>Con <b>factores de riesgo</b> (posmenopausia + tabaquismo + bajo peso) se adelanta la densitometría: no hay que esperar a los 65 años.</p>
+    <p class="why"><b>B:</b> "recién a los 65" ignora los factores de riesgo. <b>C:</b> diferir desaprovecha la indicación actual. <b>D:</b> suplementar sin medir no reemplaza el estudio diagnóstico.</p>
+  </div>
+
+  <h3>Cirugía (4)</h3>
+
+  <div class="ex">
+    <div class="tag">Q11 · Urología · HBP</div>
+    <div class="q">HBP sintomática, PSA 3 estable 10 años, próstata aumentada sin nódulos</div>
+    <div class="ans">Marcaste <b class="bad">C. Biopsia prostática transrectal</b> · Correcta: <b class="ok">A. Bloqueador alfa adrenérgico</b></div>
+    <p>Síntomas obstructivos por HBP → primera línea <b>α-bloqueante</b> (relaja el músculo liso prostático y mejora el flujo).</p>
+    <p class="why"><b>C y D:</b> no hay indicación de biopsia ni de RM multiparamétrica (PSA normal y estable, sin nódulos al tacto). <b>B:</b> los antimuscarínicos son para síntomas de llenado/vejiga hiperactiva y pueden empeorar la obstrucción.</p>
+  </div>
+
+  <div class="ex">
+    <div class="tag">Q16 · Abdomen agudo · diagnóstico</div>
+    <div class="q">Mujer 42 a, dolor en FID, fiebre, sin reacción peritoneal, β-hCG negativa</div>
+    <div class="ans">Marcaste <b class="bad">C. Ecografía de abdomen</b> · Correcta: <b class="ok">D. TC de abdomen y pelvis con contraste EV</b></div>
+    <p>Para confirmar apendicitis en el adulto, la <b>TC con contraste</b> es el estudio con mayor sensibilidad y especificidad.</p>
+    <p class="why"><b>C:</b> la ecografía rinde menos en adultos (sobre todo con dolor/distensión). <b>A:</b> la transvaginal evalúa patología pélvica (examen pélvico normal). <b>B:</b> la Rx simple aporta poco.</p>
+  </div>
+
+  <div class="ex">
+    <div class="tag">Q32 · Pancreatitis necrotizante infectada</div>
+    <div class="q">Día 20, colección retrogástrica con gas, sin pared madura</div>
+    <div class="ans">Marcaste <b class="bad">D. Laparotomía + necrosectomía + ATB</b> · Correcta: <b class="ok">C. Drenaje percutáneo + antibioticoterapia</b></div>
+    <p>Necrosis infectada → enfoque <b>"step-up"</b>: drenaje mínimamente invasivo (percutáneo/endoscópico) + ATB primero; la necrosectomía abierta queda como último escalón.</p>
+    <p class="why"><b>D:</b> la cirugía abierta de entrada tiene más morbimortalidad que el step-up. <b>A:</b> el drenaje endoscópico transgástrico requiere pared madura/colección adyacente al estómago. <b>B:</b> la quistogastroanastomosis es para pseudoquiste maduro.</p>
+  </div>
+
+  <div class="ex">
+    <div class="tag">Q89 · Diverticulitis aguda</div>
+    <div class="q">64 a, dolor en FII, fiebre, defensa localizada, cambio del ritmo evacuatorio</div>
+    <div class="ans">Marcaste <b class="bad">B. Videocolonoscopía una vez resuelto el cuadro</b> · Correcta: <b class="ok">C. TC de abdomen y pelvis con contraste EV</b></div>
+    <p>La <b>TC con contraste</b> confirma la diverticulitis y detecta complicaciones (absceso, perforación), guiando la conducta inicial.</p>
+    <p class="why"><b>B:</b> la colonoscopia está contraindicada en la fase aguda (riesgo de perforación); se hace ~6 semanas después. <b>A:</b> no hay que diferir la TC. <b>D:</b> tratar de forma ambulatoria sin imagen no es seguro con fiebre y defensa.</p>
+  </div>
+
+  <h3>Clínica — varios (4)</h3>
+
+  <div class="ex">
+    <div class="tag">Q15 · Neumonología · Fibrosis pulmonar idiopática</div>
+    <div class="q">Patrón UIP en TACAR (panalización, bronquiectasias por tracción), DLCO baja</div>
+    <div class="ans">Marcaste <b class="bad">C. Ciclofosfamida + antagonistas de endotelina</b> · Correcta: <b class="ok">A. Antifibróticos (pirfenidona o nintedanib)</b></div>
+    <p>La FPI se trata con <b>antifibróticos</b>, que enlentecen la caída funcional.</p>
+    <p class="why"><b>D:</b> corticoide + azatioprina está <i>contraindicado</i> en FPI (el ensayo PANTHER mostró daño). <b>C:</b> ciclofosfamida/antagonistas de endotelina no son el tratamiento de la FPI. <b>B:</b> corticoides + ATB prolongados no corresponden.</p>
+  </div>
+
+  <div class="ex">
+    <div class="tag">Q53 · Medio interno · Hiperkalemia</div>
+    <div class="q">K⁺ 6,8 con cambios en ECG (ondas T picudas, QRS ancho)</div>
+    <div class="ans">Marcaste <b class="bad">B. Iniciar hemodiálisis</b> · Correcta: <b class="ok">D. Gluconato de calcio IV</b></div>
+    <p>Con <b>alteraciones en el ECG</b>, lo inmediato es <b>gluconato de calcio</b>, que estabiliza la membrana del miocardio y previene arritmias.</p>
+    <p class="why"><b>A:</b> insulina+dextrosa redistribuye el K⁺, pero va <i>después</i> del calcio. <b>C:</b> furosemida/resinas eliminan K⁺ más lento. <b>B:</b> la diálisis es el tratamiento definitivo pero no el primer paso ante cambios electrocardiográficos.</p>
+  </div>
+
+  <div class="ex">
+    <div class="tag">Q76 · Neumonología · Derrame pleural</div>
+    <div class="q">Exudado (Light +), pH 7,32, glucosa 80, neutrófilos, Gram/cultivo negativos, con NAC</div>
+    <div class="ans">Marcaste <b class="bad">A. Derrame secundario a TEP</b> · Correcta: <b class="ok">D. Derrame paraneumónico bacteriano no complicado</b></div>
+    <p>Exudado <b>neutrofílico</b> asociado a neumonía, con pH &gt;7,2 y glucosa normal → <b>paraneumónico no complicado</b>.</p>
+    <p class="why"><b>B:</b> el TBC es linfocitario (ADA elevada). <b>C:</b> el viral no se asocia a consolidación bacteriana con neutrofilia. <b>A:</b> el TEP no explica el patrón clínico-bioquímico ni la consolidación.</p>
+  </div>
+
+  <div class="ex">
+    <div class="tag">Q87 · Reumatología · Artrosis</div>
+    <div class="q">Gonalgia mecánica, rigidez matinal &lt;15 min, crepitación, sin signos inflamatorios</div>
+    <div class="ans">Marcaste <b class="bad">B. RM de rodilla</b> · Correcta: <b class="ok">D. Diagnóstico clínico de osteoartrosis sin imágenes de rutina</b></div>
+    <p>La osteoartrosis es un <b>diagnóstico clínico</b> en cuadros típicos; no requiere imágenes de rutina.</p>
+    <p class="why"><b>A:</b> FR/anti-CCP son para artritis reumatoidea (la rigidez breve &lt;30 min y el patrón mecánico orientan a artrosis). <b>B:</b> la RM no es necesaria en la presentación típica. <b>C:</b> la radiografía puede apoyar pero no es imprescindible para el diagnóstico.</p>
+  </div>
+
+  <h3>Otras áreas (4)</h3>
+
+  <div class="ex">
+    <div class="tag">Q13 · Obstetricia · Sífilis en el embarazo</div>
+    <div class="q">VDRL 1:8 pretratamiento; a las 6 semanas sigue 1:8, asintomática</div>
+    <div class="ans">Marcaste <b class="bad">B. Ineficacia del esquema, cambiar antibiótico</b> · Correcta: <b class="ok">D. Ausencia de aumento significativo de títulos; continuar seguimiento serológico</b></div>
+    <p>A las 6 semanas es <b>muy temprano</b> para hablar de falla. Mientras no haya aumento ≥4 veces (2 diluciones), se continúa el <b>seguimiento serológico</b>. La respuesta se evalúa a más largo plazo.</p>
+    <p class="why"><b>B:</b> no existe resistencia de <i>Treponema</i> a la penicilina; no se cambia de antibiótico. <b>A:</b> declarar falla y retratar es prematuro. <b>C:</b> una dosis adicional no está indicada solo por un título estable a las 6 semanas.</p>
+  </div>
+
+  <div class="ex">
+    <div class="tag">Q33 · Adicciones · Cesación tabáquica</div>
+    <div class="q">Fumador motivado con antecedente de epilepsia (sin tratamiento anticonvulsivante)</div>
+    <div class="ans">Marcaste <b class="bad">A. Tratamiento conservador no farmacológico</b> · Correcta: <b class="ok">B. Terapia de reemplazo nicotínico desde el día D</b></div>
+    <p>Está indicado el tratamiento farmacológico; la <b>TRN es segura en epilepsia</b> y se inicia el día D.</p>
+    <p class="why"><b>C:</b> el <b>bupropión está contraindicado</b> en epilepsia (baja el umbral convulsivo). <b>D:</b> la vareniclina requiere cautela; la opción claramente segura es la TRN. <b>A:</b> con paciente motivado, sumar farmacoterapia mejora la tasa de éxito.</p>
+  </div>
+
+  <div class="ex">
+    <div class="tag">Q37 · Psiquiatría</div>
+    <div class="q">Crisis súbitas de palpitaciones/disnea/temblor que ceden en &lt;1 h + miedo a recurrencia</div>
+    <div class="ans">Marcaste <b class="bad">A. Trastorno de ansiedad generalizada</b> · Correcta: <b class="ok">B. Trastorno de pánico</b></div>
+    <p>Crisis <b>recurrentes e inesperadas</b> con pico en minutos + <b>ansiedad anticipatoria</b> por nuevas crisis = trastorno de pánico.</p>
+    <p class="why"><b>A:</b> el TAG es preocupación <i>persistente</i> (≥6 meses) sobre múltiples temas, no crisis episódicas. <b>C:</b> el adaptativo necesita un estresor identificable. <b>D:</b> la ansiedad social se desencadena en situaciones sociales/evaluativas.</p>
+  </div>
+
+  <div class="ex">
+    <div class="tag">Q75 · Epidemiología</div>
+    <div class="q">ECA: ¿qué hace que los grupos sean comparables al inicio?</div>
+    <div class="ans">Marcaste <b class="bad">C. Seguimiento longitudinal</b> · Correcta: <b class="ok">D. Aleatorización</b></div>
+    <p>La <b>aleatorización</b> distribuye al azar los factores de confusión (conocidos y desconocidos), logrando grupos comparables <b>al inicio</b>.</p>
+    <p class="why"><b>A:</b> el enmascaramiento evita sesgos durante el estudio/medición, no la comparabilidad basal. <b>B:</b> el grupo control permite comparar pero no garantiza balance. <b>C:</b> el seguimiento longitudinal describe el diseño, no la equivalencia inicial.</p>
+  </div>
+
+  <h2>📋 Mapa completo (100 preguntas)</h2>
+  <details>
+    <summary>Ver clasificación y resultado pregunta por pregunta</summary>
+    <div class="scroller" style="border:none;margin-top:8px">
+      <table>
+        <thead><tr><th>#</th><th>Área</th><th>Tema</th><th>Resultado</th></tr></thead>
+        <tbody id="qtable"></tbody>
+      </table>
+    </div>
+  </details>
+
+</div>
+
+<script>
+const Q=[
+[1,"Pediatría","Estenosis hipertrófica de píloro",1],
+[2,"Clínica · Nefro","Hiponatremia hipovolémica",1],
+[3,"Pediatría","Otitis media aguda",1],
+[4,"Pediatría","Calendario vacunación 11 a",1],
+[5,"Clínica · Endocrino","Cetoacidosis diabética",1],
+[6,"Ginecología","Vacuna VPH post-HSIL",0],
+[7,"Clínica · Hemato","Anemia ferropénica",1],
+[8,"Clínica · Neumo","Asma (GINA)",1],
+[9,"Ginecología","Tamizaje mama (RT Hodgkin)",0],
+[10,"Clínica · Infecto","Tuberculosis",1],
+[11,"Cirugía · Urología","HBP",0],
+[12,"Clínica · Neuro","Compresión medular metastásica",1],
+[13,"Obstetricia","Sífilis en embarazo",0],
+[14,"Clínica · Paliativos","Cuidados paliativos",1],
+[15,"Clínica · Neumo","Fibrosis pulmonar idiopática",0],
+[16,"Cirugía","Apendicitis (dx por TC)",0],
+[17,"Clínica · Infecto","Sarcoma de Kaposi (VIH)",1],
+[18,"Clínica · Cardio","SCASEST",1],
+[19,"Clínica · Hemato","TVP / SAF",1],
+[20,"Clínica · Gastro","SII vs banderas rojas",0],
+[21,"Clínica · Neumo","EPOC (LAMA+LABA)",1],
+[22,"Cirugía","Apendicitis (niño)",1],
+[23,"Pediatría","Enuresis nocturna",1],
+[24,"Clínica · Gastro","Tamizaje cáncer colorrectal",1],
+[25,"Cirugía","Colecistitis aguda",1],
+[26,"Clínica · Gastro","Ascitis cirrótica (GASA)",0],
+[27,"Ginecología","Inicio de citología cervical",1],
+[28,"Pediatría","Almacenamiento leche humana",1],
+[29,"Salud Pública","Corte transversal",1],
+[30,"Cirugía","Cáncer de páncreas (DPC)",1],
+[31,"Clínica · Nefro","Pielonefritis complicada",1],
+[32,"Cirugía","Pancreatitis necrosante (step-up)",0],
+[33,"Clínica · Adicciones","Cesación tabáquica + epilepsia",0],
+[34,"Pediatría","Desarrollo psicomotor (4 m)",1],
+[35,"Salud Pública","Sensibilidad del test",1],
+[36,"Clínica · Cardio","FA + anticoagulación (DOAC)",1],
+[37,"Clínica · Psiquiatría","Trastorno de pánico",0],
+[38,"Clínica · Cardio","Endocarditis infecciosa",1],
+[39,"Pediatría","Anafilaxia post-vacuna",0],
+[40,"Clínica · Neuro","Demencia vascular",1],
+[41,"Clínica · Cardio","FA aguda (control de frecuencia)",0],
+[42,"Clínica · Nefro","ERC (SGLT2/IECA, AINE)",1],
+[43,"Obstetricia","Parto prematuro",1],
+[44,"Clínica · Cardio","Diagnóstico de HTA",1],
+[45,"Clínica · Neuro","ACV isquémico (trombólisis)",1],
+[46,"Clínica · Gastro","HDA con shock",0],
+[47,"Salud Pública","PROA antibióticos",1],
+[48,"Pediatría · Derma","Impétigo",1],
+[49,"Clínica · Cardio","Estatinas prevención 2ª",0],
+[50,"Med. Legal","Ley parto humanizado",1],
+[51,"Clínica · Cardio","TEP masivo (embolectomía)",1],
+[52,"Clínica · Neumo","NAC ambulatoria",1],
+[53,"Clínica · Nefro","Hiperkalemia (ECG)",0],
+[54,"Cirugía","Neumotórax hipertensivo (trauma)",1],
+[55,"Pediatría","Genu varo fisiológico",1],
+[56,"Cirugía","Hernia inguinal reducible",1],
+[57,"Clínica · Cardio","Taponamiento pericárdico",1],
+[58,"Pediatría","Sueño seguro (SAP)",1],
+[59,"Clínica · Cardio","HTA oculta (MAPA)",0],
+[60,"Ginecología","Tamizaje BRCA1 (RM)",0],
+[61,"Clínica · Cardio","HTA tratamiento (combinación)",0],
+[62,"Med. Legal","Consentimiento informado",1],
+[63,"Clínica · Infecto","Sepsis / shock séptico",1],
+[64,"Ginecología","Anticoncepción en puerperio",1],
+[65,"Clínica · Cardio","Angina estable (TM óptimo)",0],
+[66,"Pediatría","Bronquiolitis (O₂)",0],
+[67,"Clínica · Nefro","Acidosis metabólica hiperclorémica",1],
+[68,"Pediatría","Chupete / sueño seguro",0],
+[69,"Ginecología","Anticoncepción en puerperio",1],
+[70,"Clínica · Infecto","Vacunación del adulto",1],
+[71,"Pediatría","Esquema atrasado (12 m)",1],
+[72,"Pediatría","ITU (urocultivo + ATB)",0],
+[73,"Clínica · Endocrino","Coma mixedematoso",1],
+[74,"Obstetricia","Preeclampsia severa",1],
+[75,"Salud Pública","Aleatorización",0],
+[76,"Clínica · Neumo","Derrame paraneumónico",0],
+[77,"Pediatría","Crup leve (corticoide oral)",0],
+[78,"Clínica · Infecto","TBC latente (VIH)",1],
+[79,"Cirugía","Obstrucción intestinal",1],
+[80,"Ginecología","Densitometría (FASGO)",0],
+[81,"Ginecología","Enfermedad pélvica inflamatoria",1],
+[82,"Clínica · Endocrino","Hipotiroidismo (Hashimoto)",1],
+[83,"Clínica · Cardio","Meta de HTA en anciano",1],
+[84,"Pediatría","Anemia severa (transfusión)",0],
+[85,"Obstetricia","Hipertensión gestacional",1],
+[86,"Clínica · Neuro","Vasoespasmo post-HSA",1],
+[87,"Clínica · Reumato","Osteoartrosis (dx clínico)",0],
+[88,"Clínica · Geriatría","Delirium",1],
+[89,"Cirugía","Diverticulitis (TC)",0],
+[90,"Pediatría","Sinovitis transitoria de cadera",0],
+[91,"Clínica · Neuro","Parálisis de Bell",1],
+[92,"Ginecología","Cáncer de endometrio",1],
+[93,"Ginecología","Anticoncepción de emergencia",1],
+[94,"Clínica · Gastro","Sangrado rectal (VCC)",1],
+[95,"Clínica · Endocrino","DM2 inicio insulina",1],
+[96,"Pediatría","Enterobiasis (oxiuros)",0],
+[97,"Clínica · Cardio","Soplo diastólico (ecocardio)",1],
+[98,"Pediatría","Varicela",1],
+[99,"Clínica · Infecto","VIH falla virológica (resistencia)",1],
+[100,"Clínica · Hemato","Leucemia mieloide crónica",1]
+];
+const tb=document.getElementById('qtable');
+tb.innerHTML=Q.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]?'<span class="pill ok">✓</span>':'<span class="pill bad">✗</span>'}</td></tr>`).join('');
+</script>

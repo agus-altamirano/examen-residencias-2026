@@ -1,0 +1,182 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Material de estudio · Residencias 2026</title>
+<style>
+  :root{
+    --bg:#0f1115;--card:#1a1d24;--card2:#21252e;--ink:#e8eaed;--muted:#9aa3b2;
+    --ok:#34d399;--bad:#f87171;--warn:#fbbf24;--line:#2c313c;--accent:#7c9eff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+  .wrap{max-width:880px;margin:0 auto;padding:26px 18px 80px}
+  h1{font-size:24px;margin:0 0 4px}
+  .sub{color:var(--muted);font-size:14px;margin:0 0 18px}
+  .tabs{display:flex;gap:8px;margin-bottom:22px;flex-wrap:wrap}
+  .tab{background:var(--card);border:1px solid var(--line);color:var(--muted);padding:9px 16px;border-radius:30px;cursor:pointer;font-size:14px;font-weight:600}
+  .tab.active{background:var(--accent);border-color:var(--accent);color:#0b1020}
+  .hidden{display:none}
+
+  /* Flashcards */
+  .deckbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px;flex-wrap:wrap}
+  .counter{font-size:13px;color:var(--muted)}
+  .scene{perspective:1400px}
+  .card{position:relative;width:100%;min-height:300px;cursor:pointer;transition:transform .5s;transform-style:preserve-3d}
+  .card.flip{transform:rotateY(180deg)}
+  .face{position:absolute;inset:0;backface-visibility:hidden;border-radius:18px;padding:26px;display:flex;flex-direction:column;border:1px solid var(--line)}
+  .front{background:var(--card)}
+  .back{background:#13251d;border-color:#1f5a3a;transform:rotateY(180deg)}
+  .face .meta{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:14px}
+  .front .body{font-size:19px;font-weight:600;margin:auto 0;display:flex;align-items:center;min-height:160px}
+  .back .label{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--ok);margin-bottom:6px}
+  .back .ans{font-size:20px;font-weight:700;margin-bottom:14px;color:#bff2d6}
+  .back .pearl{font-size:15px;color:var(--ink)}
+  .face .hint{margin-top:auto;font-size:12px;color:var(--muted);opacity:.7}
+  .ctrls{display:flex;gap:10px;justify-content:center;margin-top:16px}
+  .btn{background:var(--card);border:1px solid var(--line);color:var(--ink);padding:10px 18px;border-radius:10px;cursor:pointer;font-size:14px;font-weight:600}
+  .btn:hover{border-color:var(--accent)}
+  .btn.primary{background:var(--accent);border-color:var(--accent);color:#0b1020}
+  .chip{font-size:11px;padding:2px 9px;border-radius:20px;background:var(--card2);color:var(--muted)}
+
+  /* Temas */
+  .topic{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:12px;padding:16px 18px;margin:12px 0}
+  .topic h3{margin:0 0 4px;font-size:17px}
+  .topic .area{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);font-weight:700}
+  .topic ul{margin:10px 0 0;padding-left:18px;font-size:14.5px}
+  .topic li{margin:4px 0}
+  .topic .qs{font-size:11px;color:var(--muted);margin-top:10px}
+  .rank{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:var(--accent);color:#0b1020;font-weight:700;font-size:13px;margin-right:8px}
+  .hot{border-left-color:var(--bad)}
+  .hot .rank{background:var(--bad)}
+  .hot .area{color:var(--bad)}
+</style>
+
+<div class="wrap">
+  <h1>📚 Material de estudio</h1>
+  <p class="sub">Complemento del análisis del examen · enfoque en lo fallado y lo de mayor rinde.</p>
+
+  <div class="tabs">
+    <div class="tab active" data-t="fc">🃏 Flashcards (32)</div>
+    <div class="tab" data-t="tp">🎯 Temas de mayor rinde</div>
+  </div>
+
+  <!-- FLASHCARDS -->
+  <section id="fc">
+    <div class="deckbar">
+      <span class="counter"><span id="idx">1</span> / 32 · <span id="cat" class="chip">—</span></span>
+      <button class="btn" id="shuffle">🔀 Mezclar</button>
+    </div>
+    <div class="scene">
+      <div class="card" id="card">
+        <div class="face front">
+          <div class="meta" id="fmeta">Pregunta</div>
+          <div class="body" id="ffront">—</div>
+          <div class="hint">Tocá la tarjeta para ver la respuesta ↻</div>
+        </div>
+        <div class="face back">
+          <div class="label">Respuesta correcta</div>
+          <div class="ans" id="bans">—</div>
+          <div class="pearl" id="bpearl">—</div>
+          <div class="hint">Tocá para volver ↻</div>
+        </div>
+      </div>
+    </div>
+    <div class="ctrls">
+      <button class="btn" id="prev">← Anterior</button>
+      <button class="btn primary" id="next">Siguiente →</button>
+    </div>
+  </section>
+
+  <!-- TEMAS -->
+  <section id="tp" class="hidden"></section>
+</div>
+
+<script>
+const CARDS=[
+{q:6,cat:"Ginecología",front:"Post-conización por HSIL: ¿conducta sobre la vacuna del VPH?",ans:"Vacunar contra el VPH (esquema de 3 dosis)",pearl:"La vacunación post-tratamiento de HSIL reduce la recurrencia de la lesión. No se difiere ni se condiciona a una nueva lesión."},
+{q:9,cat:"Ginecología",front:"Tamizaje de mama con antecedente de radioterapia torácica por linfoma de Hodgkin a los 22 años. ¿Grupo de riesgo?",ans:"Riesgo ALTO",pearl:"La RT torácica entre los 10 y 30 años es criterio de alto riesgo → tamizaje con RM + mamografía intensificado."},
+{q:11,cat:"Urología",front:"HBP sintomática, PSA normal y estable, próstata aumentada sin nódulos. ¿Tratamiento?",ans:"α-bloqueante (bloqueador alfa adrenérgico)",pearl:"Primera línea de los síntomas obstructivos. Sin indicación de biopsia ni RM (PSA estable, sin nódulos). Antimuscarínicos pueden empeorar la obstrucción."},
+{q:13,cat:"Obstetricia",front:"Sífilis en embarazo: VDRL 1:8 que sigue 1:8 a las 6 semanas del tratamiento, asintomática.",ans:"Sin aumento significativo de títulos → continuar seguimiento serológico",pearl:"6 semanas es muy temprano para hablar de falla. Falla = aumento ≥4x (2 diluciones). La penicilina no tiene resistencia."},
+{q:15,cat:"Neumonología",front:"Patrón UIP en TACAR (panalización, bronquiectasias por tracción), DLCO baja. ¿Tratamiento?",ans:"Antifibróticos (pirfenidona o nintedanib)",pearl:"Es FPI. Corticoide + azatioprina está CONTRAINDICADO (ensayo PANTHER mostró daño)."},
+{q:16,cat:"Cirugía",front:"Mujer adulta con sospecha de apendicitis. ¿Estudio que mejor confirma?",ans:"TC de abdomen y pelvis con contraste EV",pearl:"Mayor sensibilidad/especificidad en el adulto. La ecografía rinde menos."},
+{q:20,cat:"Gastroenterología",front:"Cuadro 'tipo SII' pero con diarrea nocturna, anemia (Hto 32%) y VSG 44.",ans:"Videocolonoscopia",pearl:"Hay BANDERAS ROJAS (nocturna, anemia, VSG) que excluyen el SII y obligan a descartar organicidad (EII/neoplasia)."},
+{q:26,cat:"Hepatología",front:"Ascitis por cirrosis alcohólica, GASA ≥1.1 (hipertensión portal). ¿Tratamiento inicial?",ans:"Espironolactona + restricción de sodio",pearl:"Diurético de elección inicial = espironolactona. La furosemida se agrega después; la restricción hídrica solo si hay hiponatremia."},
+{q:32,cat:"Cirugía",front:"Necrosis pancreática infectada (gas en colección), sin pared madura. ¿Manejo?",ans:"Drenaje percutáneo + antibioticoterapia",pearl:"Enfoque 'step-up': mínimamente invasivo primero. La necrosectomía abierta es el último escalón."},
+{q:33,cat:"Adicciones",front:"Cesación tabáquica en paciente con epilepsia (sin anticonvulsivantes).",ans:"Terapia de reemplazo nicotínico desde el día D",pearl:"TRN es segura en epilepsia. El bupropión está CONTRAINDICADO (baja el umbral convulsivo)."},
+{q:37,cat:"Psiquiatría",front:"Crisis súbitas de palpitaciones/disnea/temblor que ceden en <1h + miedo persistente a que vuelvan.",ans:"Trastorno de pánico",pearl:"Crisis recurrentes e inesperadas + ansiedad anticipatoria. El TAG es preocupación persistente (>6 meses), no episódica."},
+{q:39,cat:"Pediatría",front:"Anafilaxia tras vacuna en lactante (edema, broncoespasmo). ¿Conducta?",ans:"Oxígeno + adrenalina IM",pearl:"Adrenalina IM es la primera línea, no se demora. La vía EV se reserva para shock refractario con monitoreo."},
+{q:41,cat:"Cardiología",front:"FA aguda de 7h, hemodinámicamente estable. ¿Conducta inicial?",ans:"Control de frecuencia con betabloqueantes + anticoagulación",pearl:"La cardioversión inmediata es solo para inestabilidad. La digoxina se reserva para IC/hipotensión."},
+{q:46,cat:"Gastroenterología",front:"HDA por AINE con shock (TA 80/60, FC 112, palidez).",ans:"Reposición con cristaloides + tipificar y reservar sangre",pearl:"Primero estabilizar (ABC). La endoscopia y el IBP van DESPUÉS de la reanimación."},
+{q:49,cat:"Cardiología",front:"Post-IAM con stent, abandonó estatinas, LDL 88.",ans:"Estatina de ALTA intensidad",pearl:"Prevención secundaria → alta intensidad de entrada, independiente del LDL basal. Ezetimibe se agrega si no llega a meta."},
+{q:53,cat:"Medio interno",front:"K⁺ 6.8 con cambios en ECG (ondas T picudas, QRS ancho). ¿Conducta inmediata?",ans:"Gluconato de calcio IV",pearl:"Estabiliza la membrana del miocardio. Luego insulina+dextrosa (redistribuye); la diálisis es definitiva, no el primer paso."},
+{q:59,cat:"Cardiología",front:"PA normal en consultorio pero MAPA elevado (diurno 138/86) + HVI.",ans:"Hipertensión arterial oculta (enmascarada)",pearl:"Normal en consultorio + alta fuera de él. El guardapolvo blanco es lo opuesto."},
+{q:60,cat:"Ginecología",front:"Portadora de mutación BRCA1. ¿Método de tamizaje por imágenes a incorporar?",ans:"RM mamaria con contraste ANUAL",pearl:"Alto riesgo → RM anual (mayor sensibilidad), habitualmente con mamografía."},
+{q:61,cat:"Cardiología",front:"HTA grado 2 (156/96) que no responde a medidas no farmacológicas.",ans:"Combinación de 2 antihipertensivos a dosis bajas",pearl:"La monoterapia rinde menos para estas cifras. IECA + ARA II está contraindicado (doble bloqueo del SRAA)."},
+{q:65,cat:"Cardiología",front:"Angina estable (umbral fijo >1 año), estenosis 75% de DA, función VI normal.",ans:"Tratamiento médico óptimo (β-bloqueante + estatina + AAS)",pearl:"La ICP no mejora la sobrevida en angina estable (COURAGE/ISCHEMIA). Se revasculariza si persisten síntomas o anatomía de alto riesgo."},
+{q:66,cat:"Pediatría",front:"Bronquiolitis, lactante de 3 meses, SatO₂ 91% + ↓ingesta.",ans:"Oxígeno suplementario",pearl:"Enfermedad viral, manejo de soporte. No ATB ni broncodilatadores de rutina (SAP 2021)."},
+{q:68,cat:"Pediatría",front:"Uso de chupete en lactante con lactancia exclusiva ya establecida.",ans:"Ofrecer al inicio de cada período de sueño",pearl:"Efecto protector contra la muerte súbita una vez consolidada la lactancia (~3-4 sem)."},
+{q:72,cat:"Pediatría",front:"ITU baja, niña, primer episodio, sin fiebre.",ans:"Sedimento + urocultivo e iniciar ATB empírico",pearl:"No demorar el tratamiento esperando el cultivo. La ecografía no es de rutina en primer episodio."},
+{q:75,cat:"Epidemiología",front:"En un ECA, ¿qué logra que los grupos sean comparables al inicio?",ans:"Aleatorización",pearl:"Distribuye al azar confundidores conocidos y desconocidos. El enmascaramiento evita sesgos durante el estudio, no la comparabilidad basal."},
+{q:76,cat:"Neumonología",front:"Derrame pleural: exudado (Light+) neutrofílico, pH>7.2, glucosa normal, asociado a NAC.",ans:"Derrame paraneumónico bacteriano NO complicado",pearl:"Neutrofílico + neumonía. El TBC es linfocitario (ADA); complicado sería pH<7.2 o glucosa baja."},
+{q:77,cat:"Pediatría",front:"Crup (laringitis) LEVE: estridor solo con el llanto, sin tiraje, buena saturación.",ans:"Corticoide oral (dexametasona)",pearl:"Indicado incluso en el crup leve. La adrenalina nebulizada se reserva para estridor en reposo (moderado-grave)."},
+{q:80,cat:"Ginecología",front:"57 años, posmenopáusica, tabaquista, bajo peso (IMC 18.9). ¿Densitometría?",ans:"Indicar densitometría ahora",pearl:"Los factores de riesgo (posmenopausia + tabaco + bajo peso) la adelantan: no se espera a los 65."},
+{q:84,cat:"Pediatría",front:"Lactante con bronquiolitis e hipoxemia, Hb 7 g/dL (ferropénica).",ans:"Transfusión de glóbulos rojos",pearl:"Anemia severa + compromiso respiratorio = transfundir. El hierro oral es para la ferropenia estable (corrige lento)."},
+{q:87,cat:"Reumatología",front:"Gonalgia mecánica, rigidez matinal <30 min, crepitación, sin signos inflamatorios.",ans:"Diagnóstico clínico de osteoartrosis, sin imágenes de rutina",pearl:"OA = diagnóstico clínico en cuadro típico. FR/anti-CCP son para artritis reumatoidea."},
+{q:89,cat:"Cirugía",front:"Diverticulitis aguda (dolor en FII, fiebre, defensa localizada).",ans:"TC de abdomen y pelvis con contraste EV",pearl:"Confirma y detecta complicaciones. La colonoscopia está contraindicada en agudo (se hace ~6 semanas después)."},
+{q:90,cat:"Pediatría",front:"Niño con cojera post-catarro, sospecha de sinovitis transitoria de cadera. ¿Estudio siguiente?",ans:"Ecografía de caderas",pearl:"Detecta derrame de forma no invasiva. La artrocentesis se reserva si se sospecha artritis séptica."},
+{q:96,cat:"Pediatría",front:"Prurito anal nocturno + gusanos blancos móviles de ~1 cm perianales.",ans:"Enterobiasis (oxiuros)",pearl:"Cuadro patognomónico. La tenia elimina proglótides planas; el áscaris da clínica intestinal."}
+];
+
+const TOPICS=[
+{hot:true,area:"Pediatría",title:"Manejo agudo pediátrico (guías SAP)",pts:["Anafilaxia → adrenalina IM (no EV salvo refractario).","Bronquiolitis → soporte y O₂; sin ATB ni broncodilatadores de rutina.","Crup leve → corticoide oral; adrenalina NBZ solo si estridor en reposo.","ITU → urocultivo + ATB empírico sin demorar.","Anemia severa con compromiso respiratorio → transfundir."],qs:"Q39, Q66, Q72, Q77, Q84"},
+{hot:true,area:"Emergencias / Clínica",title:"Estabilizar ANTES de diagnosticar o intervenir",pts:["HDA con shock → reanimar (cristaloides + sangre) antes de endoscopia.","Hiperkalemia con cambios en ECG → gluconato de calcio primero.","FA aguda estable → control de frecuencia + anticoagulación (no cardioversión).","Secuencia ABC siempre antes de estudios."],qs:"Q41, Q46, Q53"},
+{hot:true,area:"Cardiología",title:"HTA: diagnóstico, fenotipos y escalonamiento",pts:["HTA oculta = consultorio normal + ambulatorio alto (guardapolvo blanco = inverso).","Grado 2 sin respuesta a medidas → combinación de 2 fármacos a dosis bajas.","IECA + ARA II = combinación prohibida.","Metas según edad/comorbilidad."],qs:"Q44, Q59, Q61, Q83"},
+{hot:true,area:"Cardiología",title:"Cardiopatía isquémica y prevención secundaria",pts:["Angina estable + función normal → tratamiento médico óptimo (no ICP de rutina).","SCASEST: cambios isquémicos dinámicos en ECG.","Post-IAM → estatina de alta intensidad, independiente del LDL."],qs:"Q18, Q49, Q65"},
+{hot:false,area:"Toco-Ginecología",title:"Tamizaje y riesgo: mama y cuello uterino",pts:["Alto riesgo de mama (BRCA, RT torácica 10-30a) → RM anual con contraste.","Citología cervical: a los 3 años del inicio de relaciones (FASGO).","Post-HSIL → vacunar VPH (reduce recurrencia).","Densitometría adelantada ante factores de riesgo."],qs:"Q9, Q27, Q60, Q80, Q6"},
+{hot:false,area:"Gastroenterología",title:"Banderas rojas, ascitis y HDA",pts:["Diarrea nocturna + anemia + VSG alta → NO es SII; hacer colonoscopia.","Ascitis cirrótica (GASA ≥1.1) → restricción de Na + espironolactona.","Tamizaje de CCR con antecedente familiar: colonoscopia a los 40 (o 10 años antes del caso)."],qs:"Q20, Q24, Q26, Q46, Q94"},
+{hot:false,area:"Cirugía",title:"Conservador / step-up antes que invasivo",pts:["Pancreatitis necrosante infectada → drenaje percutáneo (step-up), no necrosectomía abierta.","HBP → α-bloqueante; biopsia solo si PSA/tacto sospechosos.","Diverticulitis aguda → TC; colonoscopia recién a las 6 semanas.","Apendicitis en adulto → TC con contraste para confirmar."],qs:"Q11, Q16, Q32, Q89"},
+{hot:false,area:"Medio interno",title:"Sodio, potasio y equilibrio ácido-base",pts:["Hiponatremia: clasificar por volemia (hipovolémica vs SIADH vs hipervolémica).","Hiperkalemia con ECG → calcio inmediato.","Acidosis metabólica: calcular anión gap (hiperclorémica vs AG elevado)."],qs:"Q2, Q53, Q67"},
+{hot:false,area:"Salud Pública",title:"Estadística y epidemiología esenciales",pts:["Aleatorización → comparabilidad basal; enmascaramiento → sesgo de medición.","Para no perder casos graves → priorizar sensibilidad.","Reconocer diseños: corte transversal, cohorte, casos-control, ECA."],qs:"Q29, Q35, Q75"},
+{hot:false,area:"Pediatría",title:"Prevención y sueño seguro (SAP)",pts:["Sueño: habitación de los padres, superficie firme y separada, posición supina.","Chupete al inicio de cada sueño (protector de muerte súbita) tras consolidar lactancia.","Calendario nacional de vacunación y esquemas atrasados."],qs:"Q4, Q58, Q68, Q71"}
+];
+
+// ---- Flashcards logic ----
+let order=CARDS.map((_,i)=>i), pos=0, flipped=false;
+const card=document.getElementById('card');
+function render(){
+  const c=CARDS[order[pos]];
+  document.getElementById('ffront').textContent=c.front;
+  document.getElementById('fmeta').textContent='Pregunta '+c.q;
+  document.getElementById('bans').textContent=c.ans;
+  document.getElementById('bpearl').textContent=c.pearl;
+  document.getElementById('idx').textContent=pos+1;
+  document.getElementById('cat').textContent=c.cat;
+  flipped=false;card.classList.remove('flip');
+}
+card.onclick=()=>{flipped=!flipped;card.classList.toggle('flip',flipped)};
+document.getElementById('next').onclick=()=>{pos=(pos+1)%CARDS.length;render()};
+document.getElementById('prev').onclick=()=>{pos=(pos-1+CARDS.length)%CARDS.length;render()};
+document.getElementById('shuffle').onclick=()=>{for(let i=order.length-1;i>0;i--){const j=(i*7+pos*13+3)%(i+1);[order[i],order[j]]=[order[j],order[i]]}pos=0;render()};
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight')document.getElementById('next').click();if(e.key==='ArrowLeft')document.getElementById('prev').click();if(e.key===' '){e.preventDefault();card.click()}});
+render();
+
+// ---- Topics render ----
+document.getElementById('tp').innerHTML=TOPICS.map((t,i)=>`
+  <div class="topic ${t.hot?'hot':''}">
+    <div><span class="rank">${i+1}</span><span class="area">${t.area}${t.hot?' · foco':''}</span></div>
+    <h3>${t.title}</h3>
+    <ul>${t.pts.map(p=>`<li>${p}</li>`).join('')}</ul>
+    <div class="qs">Preguntas relacionadas: ${t.qs}</div>
+  </div>`).join('');
+
+// ---- Tabs ----
+document.querySelectorAll('.tab').forEach(tab=>{
+  tab.onclick=()=>{
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+    tab.classList.add('active');
+    const t=tab.dataset.t;
+    document.getElementById('fc').classList.toggle('hidden',t!=='fc');
+    document.getElementById('tp').classList.toggle('hidden',t!=='tp');
+  };
+});
+</script>
