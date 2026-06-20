@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reglas de decisión y umbrales · Residencias</title>
+<style>
+  :root{--bg:#0f1115;--card:#1a1d24;--card2:#21252e;--ink:#e8eaed;--muted:#9aa3b2;--ok:#34d399;--bad:#f87171;--warn:#fbbf24;--line:#2c313c;--accent:#7c9eff}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+  .wrap{max-width:940px;margin:0 auto;padding:26px 18px 80px}
+  h1{font-size:25px;margin:0 0 4px}
+  h2{font-size:19px;margin:34px 0 12px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+  .sub{color:var(--muted);font-size:14px;margin:0 0 6px}
+  a.back{color:var(--accent);text-decoration:none;font-size:14px}
+  .banner{background:#11203a;border:1px solid #25406e;border-radius:12px;padding:13px 16px;font-size:13.5px;color:#cfe0ff;margin:16px 0 6px}
+  .legend{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--muted);margin:14px 0}
+  .legend b{color:var(--ink)}
+  .tag{display:inline-block;font-size:11px;font-weight:700;width:20px;text-align:center;border-radius:5px;margin-right:7px}
+  .tag.ok{background:rgba(52,211,153,.16);color:var(--ok)}
+  .tag.bad{background:rgba(248,113,113,.16);color:var(--bad)}
+  .filters{display:flex;gap:8px;margin:8px 0 2px;flex-wrap:wrap}
+  .fbtn{background:var(--card);border:1px solid var(--line);color:var(--muted);padding:6px 14px;border-radius:20px;cursor:pointer;font-size:13px;font-weight:600}
+  .fbtn.active{background:var(--accent);border-color:var(--accent);color:#0b1020}
+  .rule{display:flex;gap:4px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:11px 13px;margin:8px 0;font-size:14px}
+  .rule .qref{color:var(--muted);font-size:11px;white-space:nowrap;margin-left:6px}
+  .rule b{color:#fff}
+  .rule .k{color:var(--warn);font-weight:600}
+  .hide{display:none}
+  .scroller{overflow-x:auto;border:1px solid var(--line);border-radius:12px;margin:10px 0}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:480px}
+  th,td{text-align:left;padding:8px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.05em}
+  td.v{color:var(--warn);font-weight:600;white-space:nowrap}
+  .grp{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);font-weight:700;margin:18px 0 4px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="index.html">← Volver al inicio</a>
+  <h1>🧭 Reglas de decisión y tablas de umbrales</h1>
+  <p class="sub">Criterios accionables extraídos del examen — para fijar lo que ya sabés y reforzar lo que falló.</p>
+
+  <div class="banner">
+    🎯 <b>Pensado para el examen de Nación.</b> No sabemos si copiará el formato de CABA o tendrá otro enfoque,
+    así que prioricé <b>criterios nacionales y principios generales</b> (no trivia local). Sirven igual en cualquier formato de viñeta clínica.
+  </div>
+
+  <div class="legend">
+    <span><span class="tag ok">✓</span> <b>Lo respondiste bien</b> — repasar para no perderlo</span>
+    <span><span class="tag bad">✗</span> <b>A reforzar</b> — lo erraste</span>
+    <span><span class="k">resaltado</span> = dato/umbral clave</span>
+  </div>
+  <div class="filters">
+    <span class="fbtn active" data-f="all">Mostrar todo</span>
+    <span class="fbtn" data-f="bad">Solo a reforzar ✗</span>
+    <span class="fbtn" data-f="ok">Solo lo que sé ✓</span>
+  </div>
+
+  <!-- ============ PRINCIPIOS ============ -->
+  <h2>0 · Principios transversales (heurísticas)</h2>
+  <div class="rule" data-s="bad"><span><span class="tag bad">✗</span> <b>Emergencia → estabilizar (ABC) ANTES de diagnosticar o intervenir.</b> Volumen/vía aérea/calcio antes que endoscopía, TC o procedimiento.<span class="qref">Q46, Q53, Q63</span></span></div>
+  <div class="rule" data-s="bad"><span><span class="tag bad">✗</span> <b>Cuadro estable → primera línea / lo menos invasivo / step-up.</b> La opción heroica (cirugía abierta, ICP, biopsia) suele ser distractor si hay conducta médica inicial válida.<span class="qref">Q11, Q32, Q65, Q89</span></span></div>
+  <div class="rule" data-s="bad"><span><span class="tag bad">✗</span> <b>Banderas rojas → nunca es funcional.</b> Anemia, baja de peso, sangre, síntomas nocturnos, VSG/PCR altas → estudiar organicidad.<span class="qref">Q20</span></span></div>
+  <div class="rule" data-s="ok"><span><span class="tag ok">✓</span> <b>Leé la consigna exacta:</b> "inicial" ≠ "más adecuada" ≠ "que <b>confirma</b>" ≠ "con intención <b>curativa</b>". Cambia la respuesta.<span class="qref">Q16, Q30</span></span></div>
+  <div class="rule" data-s="ok"><span><span class="tag ok">✓</span> <b>Esquema de vacunas atrasado → completar, NO reiniciar.</b><span class="qref">Q71</span></span></div>
+
+  <!-- ============ CARDIO ============ -->
+  <h2>1 · Cardiología</h2>
+  <div class="rule" data-s="bad"><span><span class="tag bad">✗</span> <b>Angina estable</b> + función VI normal → <b>tratamiento médico óptimo</b> (β-bloq + estatina + AAS). La ICP no mejora sobrevida (COURAGE/ISCHEMIA).<span class="qref">Q65</span></span></div>
+  <div class="rule" data-s="bad"><span><span class="tag bad">✗</span> <b>FA aguda estable</b> → control de frecuencia (betabloqueante) + anticoagulación. Cardioversión solo si <b>inestable</b>.<span class="qref">Q41</span></span></div>
+  <div class="rule" data-s="bad"><span><span class="tag bad">✗</span> <b>Prevención secundaria (post-IAM)</b> → estatina de <b>alta intensidad</b> siempre, independiente del LDL.<span class="qref">Q49</span></span></div>
+  <div class="rule" data-s="bad"><span><span class="tag bad">✗</span> <b>HTA grado 2</b> que no responde a medidas → <b>combinar 2 fármacos a dosis bajas</b>. Nunca IECA + ARA II.<span class="qref">Q61</span></span></div>
+  <div class="rule" data-s="bad"><span><span class="tag bad">✗</span> <b>HTA oculta</b> = consultorio normal + ambulatorio alto. <b>Guardapolvo blanco</b> = lo opuesto.<span class="qref">Q59</span></span></div>
+  <div class="rule" data-s="ok"><span><span class="tag ok">✓</span> <b>SCASEST</b>: angina in crescendo / de reposo + cambios <b>dinámicos</b> de onda T/ST sin elevación persistente.<span class="qref">Q18</span></span></div>
+  <div class="rule" data-s="ok"><span><span class="tag ok">✓</span> <b>FA con necesidad de anticoagular y difícil control de INR</b> (zona rural) → <b>DOAC</b> (no requiere monitoreo).<span class="qref">Q36</span></span></div>
+  <div class="rule" data-s="ok"><span><span class="tag ok">✓</span> <b>Dx de HTA</b>: confirmar en ≥2 consultas, promedio ≥140/90.<span class="qref">Q44</span></span></div>
+  <div class="rule" data-s="ok"><span><span class="tag ok">✓</span> <b>Endocarditis</b> (Duke): hemocultivos ×3 + ETT + ATB dirigida.<span class="qref">Q38</span></span></div>
+  <div class="rule" data-s="ok"><span><span class="tag ok">✓</span> <b>Taponamiento</b>: tríada de Beck + pulso paradójico + bajo voltaje/alternancia. <b>TEP masivo con shock</b> refractario → trombolíticos.<span class="qref">Q57, Q51</span></span></div>
+  <div class="rule" data-s="ok"><span><span class="tag ok">✓</span> <b>Soplo diastólico</b> = siempre patológico → ecocardiograma.<span class="qref">Q97</span></span></div>
+
+  <!-- ============ NEUMO ============ -->
+  <h2>2 · Neumonología</h2>
+  <div class="rule" data-s="bad"><span><span class="tag bad">✗</span> <b>Patrón UIP / FPI</b> → antifibróticos (pirfenidona/nintedanib). Corticoide+azatioprina <b>contraindicado</b> (PANTHER).<span class="qref">Q15</span></span></div>
+  <div class="rule" data-s="bad"><span><span class="tag bad">✗</span> <b>Derrame paraneumónico no complicado</b>: exudado neutrofílico, pH&gt;7,2, glucosa normal. Complicado si pH&lt;7,2 o glucosa&lt;60.<span class="qref">Q76</span></span></div>
+  <div class="rule" data-s="ok"><span><span class="tag ok">✓</span> <b>Asma (GINA)</b> → iniciar con <b>corticoide inhalado</b> de entrada, no SABA solo.<span class="qref">Q8</span></span></div>
+  <div class="rule" data-s="ok"><span><span class="tag ok">✓</span> <b>EPOC</b> con ≥2 exacerbaciones/año → <b>LAMA + LABA</b>. CI solo con eosinofilia/asma.<span class="qref">Q21</span></span></div>
+  <div class="rule" data-s="ok"><span><span class="tag ok">✓</span> <b>NAC</b> sin criterios de gravedad (CURB-65 bajo) → ambulatorio con amoxicilina.<span class="qref">Q52</span></span></div>
+
+  <!-- ============ GASTRO ============ -->
+  <h2>3 · Gastroenterología</h2>
+  <div class="rule" data-s="bad"><span><span class="tag bad">✗</span> <b>"SII" con banderas rojas</b> (diarrea nocturna, anemia, VSG↑) → videocolonoscopia, no tratamiento sintomático.<span class="qref">Q20</span></span></div>
+  <div class="rule" data-s="bad"><span><span class="tag bad">✗</span> <b>Ascitis cirrótica (GASA ≥1,1)</b> → restricción de Na + <b>espironolactona</b>. Furosemida se agrega; restricción hídrica solo si hiponatremia.<span class="qref">Q26</span></span></div>
+  <div class="rule" data-s="bad"><span><span class="tag bad">✗</span> <b>HDA con shock</b> → reanimar (cristaloides + tipificar/reservar) <b>antes</b> de endoscopía.<span class="qref">Q46</span></span></div>
+  <div class="rule" data-s="ok"><span><span class="tag ok">✓</span> <b>Tamizaje CCR con familiar de 1er grado</b> → colonoscopía a los <b>40 años</b> (o 10 años antes del caso índice), repetir c/5 años.<span class="qref">Q24</span></span></div>
+  <div class="rule" data-s="ok"><span><span class="tag ok">✓</span> <b>Sangrado rectal</b> con rectosigmoideoscopía normal → <b>videocolonoscopía completa</b>.<span class="qref">Q94</span></span></div>
+
+  <!-- ============ NEFRO / MEDIO INTERNO ============ -->
+  <h2>4 · Nefrología y medio interno</h2>
+  <div class="rule" data-s="bad"><span><span class="tag bad">✗</span> <b>Hiperkalemia con cambios en ECG</b> → <b>gluconato de calcio IV</b> primero (estabiliza membrana). Luego insulina+dextrosa; diálisis es definitiva, no inmediata.<span class="qref">Q53</span></span></div>
+  <div class="rule" data-s="ok"><span><span class="tag ok">✓</span> <b>Hiponatremia</b>: clasificar por <b>volemia</b> (hipovolémica vs SIADH vs hipervolémica) + osmolaridad.<span class="qref">Q2</span></span></div>
+  <div class="rule" data-s="ok"><span><span class="tag ok">✓</span> <b>Acidosis metabólica</b>: calcular <b>anión gap</b>. AG normal + diarrea = hiperclorémica.<span class="qref">Q67</span></span></div>
+  <div class="rule" data-s="ok"><span><span class="tag ok">✓</span> <b>ERC + DBT + albuminuria</b> → SGLT2 + IECA/ARA II + <b>suspender AINE</b>.<span class="qref">Q42</span></span></div>
+  <div class="rule" data-s="ok"><span><span class="tag ok">✓</span> <b>Pielonefritis que no mejora a las 72h</b> → TC (buscar absceso/obstrucción) + hemocultivos + ampliar ATB.<span class="qref">Q31</span></span></div>
+
+  <!-- ============ ENDOCRINO ============ -->
+  <h2>5 · Endocrinología</h2>
+  <div class="rule" data-s="ok"><span><span class="tag ok">✓</span> <b>Cetoacidosis diabética</b> → <b>reposición con SF primero</b> (volumen), después insulina; vigilar K.<span class="qref">Q5</span></span></div>
+  <div class="rule" data-s="ok"><span><span class="tag ok">✓</span> <b>Coma mixedematoso</b> (TSH↑, hipotermia, hipoNa, hipercapnia) → levotiroxina (±T3) + <b>hidrocortisona</b> + soporte.<span class="qref">Q73</span></span></div>
+  <div class="rule" data-s="ok"><span><span class="tag ok">✓</span> <b>Hipotiroidismo</b>: etiología más probable → <b>anti-TPO</b> (Hashimoto).<span class="qref">Q82</span></span></div>
+  <div class="rule" data-s="ok"><span><span class="tag ok">✓</span> <b>DM2 con HbA1c muy alta (≥10%) + síntomas</b> → metformina + <b>insulina basal</b>.<span class="qref">Q95</span></span></div>
+
+  <!-- ============ INFECTO ============ -->
+  <h2>6 · Infectología</h2>
+  <div class="rule" data-s="ok"><span><span class="tag ok">✓</span> <b>Sospecha de TBC</b> → prueba molecular rápida (GeneXpert) + evaluar contactos estrechos.<span class="qref">Q10</span></span></div>
+  <div class="rule" data-s="ok"><span><span class="tag ok">✓</span> <b>TBC latente</b> (contacto, sobre todo VIH+) tras descartar activa → <b>isoniacida preventiva</b>.<span class="qref">Q78</span></span></div>
+  <div class="rule" data-s="ok"><span><span class="tag ok">✓</span> <b>Sepsis</b> (lactato ≥4) → prioridad: <b>cristaloides</b> + hemocultivos + ATB precoz (bundle 1h).<span class="qref">Q63</span></span></div>
+  <div class="rule" data-s="ok"><span><span class="tag ok">✓</span> <b>VIH con CV detectable persistente</b> y buena adherencia → <b>test de resistencia</b>.<span class="qref">Q99</span></span></div>
+  <div class="rule" data-s="ok"><span><span class="tag ok">✓</span> <b>Adulto sin registros de vacunas</b> → antigripal + antineumocócica + <b>iniciar Td</b> (no reiniciar lo que sí tenga).<span class="qref">Q70</span></span></div>
+
+  <!-- ============ NEURO ============ -->
+  <h2>7 · Neurología</h2>
+  <div class="rule" data-s="ok"><span><span class="tag ok">✓</span> <b>ACV isquémico &lt;4,5h</b> + TC sin hemorragia → <b>trombólisis con alteplase</b>.<span class="qref">Q45</span></span></div>
+  <div class="rule" data-s="ok"><span><span class="tag ok">✓</span> <b>Compresión medular</b> (déficit + dolor + nivel) → <b>dexametasona + RM de columna total</b> (urgencia).<span class="qref">Q12</span></span></div>
+  <div class="rule" data-s="ok"><span><span class="tag ok">✓</span> <b>HSA día 4–14</b> con deterioro → isquemia tardía por <b>vasoespasmo</b> (nimodipina profiláctica).<span class="qref">Q86</span></span></div>
+  <div class="rule" data-s="ok"><span><span class="tag ok">✓</span> <b>Parálisis facial periférica (Bell)</b>: compromete la frente. Central = respeta la frente.<span class="qref">Q91</span></span></div>
+  <div class="rule" data-s="ok"><span><span class="tag ok">✓</span> <b>Demencia vascular</b>: deterioro escalonado + factores/eventos vasculares. <b>Delirium</b>: agudo, fluctuante, falla la atención → buscar causa.<span class="qref">Q40, Q88</span></span></div>
+
+  <!-- ============ HEMATO ============ -->
+  <h2>8 · Hematología</h2>
+  <div class="rule" data-s="ok"><span><span class="tag ok">✓</span> <b>Ferropenia</b> (VCM↓, ferritina↓, TIBC↑, sat↓) sin alarma → hierro oral; con sangrado/edad → estudiar.<span class="qref">Q7</span></span></div>
+  <div class="rule" data-s="ok"><span><span class="tag ok">✓</span> <b>SAF</b>: trombosis + abortos + TTPa prolongado → anticoagular + anticardiolipina/anti-β2GPI/anticoagulante lúpico.<span class="qref">Q19</span></span></div>
+  <div class="rule" data-s="ok"><span><span class="tag ok">✓</span> <b>LMC</b>: leucocitosis con desviación a izquierda + basofilia + esplenomegalia (BCR-ABL).<span class="qref">Q100</span></span></div>
+
+  <!-- ============ PEDIATRIA ============ -->
+  <h2>9 · Pediatría</h2>
+  <div class="grp">Agudo / emergencias</div>
+  <div class="rule" data-s="bad"><span><span class="tag bad">✗</span> <b>Anafilaxia</b> → <b>adrenalina IM</b> + O₂ (EV solo en shock refractario monitorizado).<span class="qref">Q39</span></span></div>
+  <div class="rule" data-s="bad"><span><span class="tag bad">✗</span> <b>Bronquiolitis</b> con SatO₂&lt;92–93% / ↓ingesta → <b>O₂</b> y soporte. Sin ATB ni broncodilatadores de rutina.<span class="qref">Q66</span></span></div>
+  <div class="rule" data-s="bad"><span><span class="tag bad">✗</span> <b>Crup leve</b> → <b>corticoide oral</b> (dexametasona) igual. Adrenalina NBZ solo si estridor en reposo.<span class="qref">Q77</span></span></div>
+  <div class="rule" data-s="bad"><span><span class="tag bad">✗</span> <b>ITU</b> → urocultivo + <b>ATB empírico sin demorar</b>. Eco no de rutina en 1er episodio.<span class="qref">Q72</span></span></div>
+  <div class="rule" data-s="bad"><span><span class="tag bad">✗</span> <b>Anemia severa (Hb 7) con hipoxemia</b> → <b>transfundir</b>. Hierro oral = ferropenia estable.<span class="qref">Q84</span></span></div>
+  <div class="grp">Crónico / control de salud</div>
+  <div class="rule" data-s="bad"><span><span class="tag bad">✗</span> <b>Chupete</b> tras lactancia establecida → ofrecer al inicio de cada sueño (protege de muerte súbita).<span class="qref">Q68</span></span></div>
+  <div class="rule" data-s="bad"><span><span class="tag bad">✗</span> <b>Cojera post-catarro</b> (sinovitis transitoria) → <b>ecografía de cadera</b>. Artrocentesis solo si sospecha séptica.<span class="qref">Q90</span></span></div>
+  <div class="rule" data-s="bad"><span><span class="tag bad">✗</span> <b>Prurito anal nocturno + gusanos blancos ~1cm</b> → enterobiasis (oxiuros).<span class="qref">Q96</span></span></div>
+  <div class="rule" data-s="ok"><span><span class="tag ok">✓</span> <b>Estenosis hipertrófica de píloro</b>: 3–6 sem, vómito no bilioso en proyectil, oliva epigástrica, alcalosis hipoclorémica → eco.<span class="qref">Q1</span></span></div>
+  <div class="rule" data-s="ok"><span><span class="tag ok">✓</span> <b>OMA</b> (tímpano abombado) → analgesia + amoxicilina. <b>Impétigo</b> = costras melicéricas. <b>Varicela</b> = lesiones en distintos estadios.<span class="qref">Q3, Q48, Q98</span></span></div>
+  <div class="rule" data-s="ok"><span><span class="tag ok">✓</span> <b>Enuresis primaria monosintomática</b> → medidas conductuales + alarma (1ª línea). <b>Genu varo</b> &lt;2–3 años = fisiológico.<span class="qref">Q23, Q55</span></span></div>
+  <div class="rule" data-s="ok"><span><span class="tag ok">✓</span> <b>Sueño seguro</b>: supino, superficie firme, habitación compartida <b>sin colecho</b>.<span class="qref">Q58</span></span></div>
+  <div class="rule" data-s="ok"><span><span class="tag ok">✓</span> <b>Apendicitis pediátrica</b> con peritonismo → ayuno + hidratación + ATB + cirugía (no más estudios si la clínica es clara).<span class="qref">Q22</span></span></div>
+
+  <!-- ============ CIRUGIA ============ -->
+  <h2>10 · Cirugía</h2>
+  <div class="rule" data-s="bad"><span><span class="tag bad">✗</span> <b>Apendicitis en adulto</b>: el estudio que <b>confirma</b> = TC con contraste (no eco).<span class="qref">Q16</span></span></div>
+  <div class="rule" data-s="bad"><span><span class="tag bad">✗</span> <b>Pancreatitis necrosante infectada</b> → drenaje percutáneo + ATB (<b>step-up</b>); necrosectomía abierta = último escalón.<span class="qref">Q32</span></span></div>
+  <div class="rule" data-s="bad"><span><span class="tag bad">✗</span> <b>HBP</b> con PSA estable → <b>α-bloqueante</b>; biopsia solo si PSA/tacto sospechosos.<span class="qref">Q11</span></span></div>
+  <div class="rule" data-s="bad"><span><span class="tag bad">✗</span> <b>Diverticulitis aguda</b> → TC con contraste. Colonoscopía contraindicada en agudo (a las ~6 semanas).<span class="qref">Q89</span></span></div>
+  <div class="rule" data-s="ok"><span><span class="tag ok">✓</span> <b>Colecistitis/colangitis</b> (Murphy+, fiebre, leucocitosis) → ayuno + hidratación + ATB + IC quirúrgica.<span class="qref">Q25</span></span></div>
+  <div class="rule" data-s="ok"><span><span class="tag ok">✓</span> <b>Neumotórax hipertensivo</b> (desviación traqueal, IY, ausencia MV) → <b>descompresión inmediata</b>, sin esperar Rx.<span class="qref">Q54</span></span></div>
+  <div class="rule" data-s="ok"><span><span class="tag ok">✓</span> <b>Obstrucción intestinal por bridas</b> (cicatriz) → SNG + hidratación + Rx + IC cirugía. <b>Hernia reducible</b> → reparación electiva.<span class="qref">Q79, Q56</span></span></div>
+  <div class="rule" data-s="ok"><span><span class="tag ok">✓</span> <b>Ca de páncreas de cabeza resecable</b> → duodenopancreatectomía cefálica (Whipple).<span class="qref">Q30</span></span></div>
+
+  <!-- ============ GINECO / OBST ============ -->
+  <h2>11 · Ginecología y obstetricia</h2>
+  <div class="rule" data-s="bad"><span><span class="tag bad">✗</span> <b>Alto riesgo de mama</b> (BRCA, RT torácica 10–30a) → <b>RM mamaria con contraste anual</b>.<span class="qref">Q9, Q60</span></span></div>
+  <div class="rule" data-s="bad"><span><span class="tag bad">✗</span> <b>Densitometría</b>: adelantar (antes de 65) si hay factores de riesgo (posmenopausia + tabaco + bajo peso).<span class="qref">Q80</span></span></div>
+  <div class="rule" data-s="bad"><span><span class="tag bad">✗</span> <b>Post-tratamiento de HSIL</b> → vacunar VPH (reduce recurrencia).<span class="qref">Q6</span></span></div>
+  <div class="rule" data-s="bad"><span><span class="tag bad">✗</span> <b>Sífilis en embarazo</b>: título estable a 6 sem ≠ falla; falla = aumento ≥4× (2 diluciones) → seguir serología.<span class="qref">Q13</span></span></div>
+  <div class="rule" data-s="ok"><span><span class="tag ok">✓</span> <b>Anticoncepción en puerperio con lactancia</b> → progestágeno solo (sin estrógenos por riesgo trombótico).<span class="qref">Q64, Q69</span></span></div>
+  <div class="rule" data-s="ok"><span><span class="tag ok">✓</span> <b>EPI</b>: dolor a la movilización cervical + secreción. <b>Ca de endometrio</b> → histerectomía + anexectomía + estadificación.<span class="qref">Q81, Q92</span></span></div>
+  <div class="rule" data-s="ok"><span><span class="tag ok">✓</span> <b>Parto prematuro</b> 24–34 sem → tocólisis + <b>corticoides antenatales</b> + vigilancia.<span class="qref">Q43</span></span></div>
+  <div class="rule" data-s="ok"><span><span class="tag ok">✓</span> <b>Preeclampsia severa</b> → labetalol + <b>sulfato de magnesio</b>. <b>HTA gestacional</b> = ≥140/90 tras 20 sem, sin proteinuria.<span class="qref">Q74, Q85</span></span></div>
+
+  <!-- ============ SALUD PUBLICA / LEGAL ============ -->
+  <h2>12 · Salud pública, epidemiología y bioética</h2>
+  <div class="rule" data-s="bad"><span><span class="tag bad">✗</span> <b>Aleatorización</b> → comparabilidad basal (confundidores). <b>Enmascaramiento</b> → sesgo de medición.<span class="qref">Q75</span></span></div>
+  <div class="rule" data-s="ok"><span><span class="tag ok">✓</span> <b>No perder casos graves</b> (cribado) → priorizar <b>sensibilidad</b>.<span class="qref">Q35</span></span></div>
+  <div class="rule" data-s="ok"><span><span class="tag ok">✓</span> <b>Diseños</b>: prevalencia + asociación en un momento = <b>corte transversal</b>.<span class="qref">Q29</span></span></div>
+  <div class="rule" data-s="ok"><span><span class="tag ok">✓</span> <b>Paciente competente puede rechazar</b> un tratamiento (Ley 26.529): respetar y dejar constancia.<span class="qref">Q62</span></span></div>
+  <div class="rule" data-s="ok"><span><span class="tag ok">✓</span> <b>Parto humanizado</b> (Ley 25.929): acompañamiento y fisiología en trabajo de parto, parto y postparto.<span class="qref">Q50</span></span></div>
+  <div class="rule" data-s="ok"><span><span class="tag ok">✓</span> <b>PROA</b>: permitir ATB restringido 24–48h y luego exigir autorización del equipo (no frenar el inicio).<span class="qref">Q47</span></span></div>
+
+  <!-- ============ TABLAS DE UMBRALES ============ -->
+  <h2>📐 Tablas de umbrales</h2>
+
+  <div class="grp">Hipertensión arterial</div>
+  <div class="scroller"><table>
+    <thead><tr><th>Situación</th><th>Valor</th></tr></thead>
+    <tbody>
+      <tr><td>Diagnóstico (consultorio)</td><td class="v">≥140/90 en ≥2 consultas</td></tr>
+      <tr><td>MAPA 24 h / diurno / nocturno</td><td class="v">≥130/80 · ≥135/85 · ≥120/70</td></tr>
+      <tr><td>Meta general</td><td class="v">&lt;140/90</td></tr>
+      <tr><td>Meta alto riesgo (DBT, ERC, ECV)</td><td class="v">&lt;130/80</td></tr>
+      <tr><td>Meta &gt;80 años</td><td class="v">&lt;150/90</td></tr>
+      <tr><td>HTA en embarazo / severa</td><td class="v">≥140/90 tras 20 sem · severa ≥160/110</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="grp">Líquido pleural y ascítico</div>
+  <div class="scroller"><table>
+    <thead><tr><th>Criterio</th><th>Valor</th></tr></thead>
+    <tbody>
+      <tr><td>Exudado (Light, 1 cumple)</td><td class="v">Prot LP/suero &gt;0,5 · LDH LP/suero &gt;0,6 · LDH LP &gt;⅔ LSN</td></tr>
+      <tr><td>Paraneumónico complicado</td><td class="v">pH &lt;7,2 o glucosa &lt;60</td></tr>
+      <tr><td>GASA (alb. suero − alb. ascitis)</td><td class="v">≥1,1 = hipertensión portal · &lt;1,1 = otra causa</td></tr>
+      <tr><td>Profilaxis de PBE</td><td class="v">proteínas en líquido &lt;1,5 g/dL + criterios</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="grp">Medio interno</div>
+  <div class="scroller"><table>
+    <thead><tr><th>Criterio</th><th>Valor</th></tr></thead>
+    <tbody>
+      <tr><td>Anión gap (Na − [Cl + HCO₃])</td><td class="v">normal 8–12</td></tr>
+      <tr><td>Hiponatremia</td><td class="v">Na &lt;135 (clasificar por volemia)</td></tr>
+      <tr><td>Hiperkalemia con ECG</td><td class="v">→ gluconato de calcio inmediato</td></tr>
+      <tr><td>CAD</td><td class="v">glucosa &gt;250 · pH &lt;7,3 · HCO₃ &lt;18 · AG alto · cetonas+</td></tr>
+      <tr><td>Sepsis: lactato</td><td class="v">&gt;2 (≥4 = hipoperfusión grave)</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="grp">Respiratorio</div>
+  <div class="scroller"><table>
+    <thead><tr><th>Criterio</th><th>Valor</th></tr></thead>
+    <tbody>
+      <tr><td>Obstrucción (espirometría)</td><td class="v">VEF1/CVF &lt;0,70 post-BD</td></tr>
+      <tr><td>EPOC: terapia doble (LAMA+LABA)</td><td class="v">≥2 exacerbaciones o 1 hospitalización/año</td></tr>
+      <tr><td>NAC ambulatoria</td><td class="v">CURB-65 0–1</td></tr>
+      <tr><td>O₂ en niño con dificultad respiratoria</td><td class="v">SatO₂ &lt;92–93%</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="grp">Tamizaje y prevención</div>
+  <div class="scroller"><table>
+    <thead><tr><th>Tamizaje</th><th>Criterio</th></tr></thead>
+    <tbody>
+      <tr><td>Mama, riesgo promedio</td><td class="v">mamografía (según programa)</td></tr>
+      <tr><td>Mama, alto riesgo (BRCA, RT tórax)</td><td class="v">RM con contraste anual</td></tr>
+      <tr><td>Cáncer colorrectal, riesgo general</td><td class="v">desde 50 años</td></tr>
+      <tr><td>CCR con familiar 1er grado</td><td class="v">40 años o 10 años antes del caso · c/5 años</td></tr>
+      <tr><td>Citología cervical</td><td class="v">25 años (programa) / 3 años post-inicio RS (FASGO)</td></tr>
+      <tr><td>PPD positiva</td><td class="v">≥5 mm (VIH/contacto/inmunosup) · ≥10 mm (riesgo) · ≥15 mm (sin factores)</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="grp">Ventanas de tiempo críticas</div>
+  <div class="scroller"><table>
+    <thead><tr><th>Cuadro</th><th>Ventana / hito</th></tr></thead>
+    <tbody>
+      <tr><td>ACV isquémico — trombólisis</td><td class="v">≤4,5 h</td></tr>
+      <tr><td>Sepsis — bundle inicial</td><td class="v">1ª hora</td></tr>
+      <tr><td>Vasoespasmo post-HSA</td><td class="v">días 4–14</td></tr>
+      <tr><td>Sífilis — respuesta serológica</td><td class="v">descenso ≥4× a los 6–12 meses</td></tr>
+      <tr><td>Corticoides antenatales (madurez pulmonar)</td><td class="v">24–34 semanas</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="grp">Hitos del desarrollo (referencia rápida)</div>
+  <div class="scroller"><table>
+    <thead><tr><th>Edad</th><th>Hito</th></tr></thead>
+    <tbody>
+      <tr><td>2 meses</td><td class="v">sonrisa social, sigue con la mirada</td></tr>
+      <tr><td>4 meses</td><td class="v">sostén cefálico, manos a la boca, prona eleva tórax</td></tr>
+      <tr><td>6 meses</td><td class="v">se sienta con apoyo, rola, prensión</td></tr>
+      <tr><td>8–9 meses</td><td class="v">se sienta solo, pinza, reacción a extraños</td></tr>
+      <tr><td>12 meses</td><td class="v">primeros pasos, dice palabras</td></tr>
+    </tbody>
+  </table></div>
+
+  <p class="sub" style="margin-top:22px">Los valores son criterios de referencia para razonar viñetas; ante un caso real, validá siempre contra la guía vigente.</p>
+</div>
+
+<script>
+document.querySelectorAll('.fbtn').forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll('.fbtn').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    const f=b.dataset.f;
+    document.querySelectorAll('.rule').forEach(r=>{
+      r.classList.toggle('hide', f!=='all' && r.dataset.s!==f);
+    });
+  };
+});
+</script>
+</body>
+</html>
