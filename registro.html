@@ -5,22 +5,25 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Registro de errores · Residencias</title>
 <style>
-  :root{--bg:#0f1115;--card:#1a1d24;--card2:#21252e;--ink:#e8eaed;--muted:#9aa3b2;--ok:#34d399;--bad:#f87171;--warn:#fbbf24;--line:#2c313c;--accent:#7c9eff}
+  :root{--bg:#0f1115;--card:#1a1d24;--card2:#21252e;--ink:#e8eaed;--muted:#9aa3b2;--ok:#34d399;--bad:#f87171;--warn:#fbbf24;--accent:#7c9eff;--orange:#f59e6b;--line:#2c313c}
   *{box-sizing:border-box}
   body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5}
-  .wrap{max-width:1100px;margin:0 auto;padding:24px 16px 80px}
+  .wrap{max-width:1150px;margin:0 auto;padding:24px 16px 80px}
   a.back{color:var(--accent);text-decoration:none;font-size:14px}
   h1{font-size:24px;margin:6px 0 4px}
   .sub{color:var(--muted);font-size:14px;margin:0 0 16px}
-  .why{background:#11203a;border:1px solid #25406e;border-radius:12px;padding:12px 15px;font-size:13.5px;color:#cfe0ff;margin-bottom:18px}
+  .why{background:#11203a;border:1px solid #25406e;border-radius:12px;padding:12px 15px;font-size:13.5px;color:#cfe0ff;margin-bottom:16px}
   .why b{color:#fff}
-  form{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:18px}
+  details{background:var(--card);border:1px solid var(--line);border-radius:14px;margin-bottom:18px}
+  summary{cursor:pointer;padding:14px 16px;font-weight:600;font-size:14px}
+  form{padding:0 16px 16px}
   .row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
   label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin:0 0 4px}
   input,select,textarea{width:100%;background:var(--card2);border:1px solid var(--line);color:var(--ink);border-radius:8px;padding:8px 10px;font-size:14px;font-family:inherit}
   textarea{min-height:46px;resize:vertical}
   .full{grid-column:1/-1}
   .actions{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+  .toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
   .btn{background:var(--card2);border:1px solid var(--line);color:var(--ink);padding:9px 16px;border-radius:9px;cursor:pointer;font-size:14px;font-weight:600}
   .btn.primary{background:var(--accent);border-color:var(--accent);color:#0b1020}
   .btn:hover{border-color:var(--accent)}
@@ -28,116 +31,168 @@
   .stat{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:9px 14px;font-size:13px}
   .stat b{font-size:18px;display:block}
   .scroller{overflow-x:auto;border:1px solid var(--line);border-radius:12px}
-  table{width:100%;border-collapse:collapse;font-size:13px;min-width:760px}
-  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
-  th{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.05em;position:sticky;top:0;background:var(--card2)}
-  .pill{font-size:11px;padding:2px 8px;border-radius:20px;font-weight:600;white-space:nowrap}
-  .t-nosabia{background:rgba(248,113,113,.16);color:var(--bad)}
-  .t-leimal{background:rgba(251,191,36,.16);color:var(--warn)}
-  .t-agresiva{background:rgba(124,158,255,.16);color:var(--accent)}
-  .t-calculo{background:rgba(52,211,153,.16);color:var(--ok)}
-  .t-interpret{background:rgba(160,160,200,.16);color:#b9b9d6}
+  table{width:100%;border-collapse:collapse;font-size:13px;min-width:880px}
+  th,td{text-align:left;padding:7px 9px;border-bottom:1px solid var(--line);vertical-align:middle}
+  th{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.05em;background:var(--card2)}
+  tr.unset td{background:rgba(251,191,36,.05)}
+  td.tema{min-width:230px}
+  select.intipo,input.inmotivo{padding:5px 7px;font-size:12.5px}
+  select.intipo.t0{color:var(--warn)}
+  input.inmotivo{min-width:200px}
+  .ta{font-weight:600;color:var(--bad)} .ok2{font-weight:600;color:var(--ok)}
   .del{cursor:pointer;color:var(--bad);font-weight:700;border:none;background:none;font-size:15px}
   .empty{color:var(--muted);text-align:center;padding:30px;font-size:14px}
   .muted{color:var(--muted)}
+  .pill{font-size:10.5px;padding:2px 7px;border-radius:20px;font-weight:600;white-space:nowrap}
 </style>
 </head>
 <body>
 <div class="wrap">
   <a class="back" href="index.html">← Volver al inicio</a>
   <h1>🗒️ Registro de errores</h1>
-  <p class="sub">Cargá cada pregunta que erraste (en simulacros o práctica). Se guarda en este navegador y lo podés exportar a CSV/Anki.</p>
+  <p class="sub">Las 32 de este examen ya vienen cargadas. Solo elegí el <b>motivo</b> en cada fila (incluido "por apurado" 😅). Para otros simulacros, usá el formulario de abajo.</p>
 
   <div class="why">
-    💡 <b>Lo que más corrige no es el tema, es el <i>tipo</i> de error.</b> Etiquetá honestamente la causa: si erraste por
-    irte a la opción agresiva o por leer mal, ese patrón se arregla distinto que "no sabía". Revisá el registro cada semana y atacá el tipo más frecuente.
+    💡 <b>Lo que más corrige es el <i>tipo</i> de error, no el tema.</b> Marcá honesto: "por apurado" y "leí mal" se arreglan bajando el ritmo y subrayando la consigna; "opción agresiva" con la regla de conservador-primero; "no sabía" estudiando. Mirá abajo cuál es tu motivo más frecuente.
   </div>
 
-  <form id="f">
-    <div class="row">
-      <div><label>Fecha</label><input type="date" id="fecha"></div>
-      <div><label>Fuente</label><input type="text" id="fuente" placeholder="Simulacro CABA 2024 / banco X"></div>
-      <div><label>N° pregunta</label><input type="text" id="num" placeholder="Q12"></div>
-      <div><label>Área / Especialidad</label><input type="text" id="area" placeholder="Cardiología" list="areas">
-        <datalist id="areas"><option>Pediatría</option><option>Cardiología</option><option>Neumonología</option><option>Gastroenterología</option><option>Nefrología / Medio interno</option><option>Endocrinología</option><option>Infectología</option><option>Neurología</option><option>Hematología</option><option>Reumatología</option><option>Cirugía</option><option>Ginecología</option><option>Obstetricia</option><option>Salud Pública / Epi</option><option>Medicina Legal</option><option>Psiquiatría</option></datalist>
-      </div>
-    </div>
-    <div class="row" style="margin-top:12px">
-      <div><label>Tu respuesta</label><input type="text" id="tuya" placeholder="C"></div>
-      <div><label>Correcta</label><input type="text" id="correcta" placeholder="A"></div>
-      <div class="full" style="grid-column:span 2"><label>Tipo de error</label>
-        <select id="tipo">
-          <option value="nosabia">No sabía el contenido</option>
-          <option value="leimal">Leí mal la consigna / un dato</option>
-          <option value="agresiva">Me fui a la opción agresiva/invasiva</option>
-          <option value="calculo">Error de cálculo / umbral</option>
-          <option value="interpret">Mala interpretación clínica</option>
-        </select>
-      </div>
-    </div>
-    <div class="row" style="margin-top:12px">
-      <div class="full"><label>Tema / concepto a repasar</label><input type="text" id="tema" placeholder="Manejo inicial de hiperkalemia con cambios en ECG"></div>
-    </div>
-    <div class="row" style="margin-top:12px">
-      <div class="full"><label>Causa raíz + acción correctiva</label><textarea id="accion" placeholder="Por qué fallé y qué voy a hacer: ej. confundí orden de tratamiento → memorizar 'calcio primero', releer guía de K+"></textarea></div>
-    </div>
-    <div class="actions">
-      <button type="submit" class="btn primary">➕ Agregar</button>
-      <button type="button" class="btn" id="exportar">⬇️ Exportar CSV</button>
-      <button type="button" class="btn" id="anki">🃏 Exportar para Anki</button>
-      <button type="button" class="btn" id="limpiar">🗑️ Borrar todo</button>
-    </div>
-  </form>
+  <div class="toolbar">
+    <button class="btn" id="recargar">↻ Recargar las 32 del examen</button>
+    <button class="btn" id="exportar">⬇️ Exportar CSV</button>
+    <button class="btn" id="anki">🃏 Exportar para Anki</button>
+    <button class="btn" id="limpiar">🗑️ Borrar todo</button>
+  </div>
 
   <div class="stats" id="stats"></div>
 
   <div class="scroller">
     <table>
-      <thead><tr><th>Fecha</th><th>N°</th><th>Área</th><th>Tema</th><th>Tu→OK</th><th>Tipo</th><th>Acción</th><th></th></tr></thead>
+      <thead><tr><th>N°</th><th>Área</th><th>Tema / concepto</th><th>Tu→OK</th><th>Motivo</th><th>Nota (opcional)</th><th></th></tr></thead>
       <tbody id="rows"></tbody>
     </table>
   </div>
+
+  <details>
+    <summary>➕ Agregar un error de otro simulacro / examen</summary>
+    <form id="f">
+      <div class="row">
+        <div><label>Fecha</label><input type="date" id="fecha"></div>
+        <div><label>Fuente</label><input type="text" id="fuente" placeholder="Simulacro X 2026"></div>
+        <div><label>N° pregunta</label><input type="text" id="num" placeholder="Q12"></div>
+        <div><label>Área</label><input type="text" id="area" placeholder="Cardiología" list="areas">
+          <datalist id="areas"><option>Pediatría</option><option>Cardiología</option><option>Neumonología</option><option>Gastroenterología</option><option>Nefrología / Medio interno</option><option>Endocrinología</option><option>Infectología</option><option>Neurología</option><option>Hematología</option><option>Reumatología</option><option>Cirugía</option><option>Ginecología</option><option>Obstetricia</option><option>Salud Pública / Epi</option><option>Medicina Legal</option><option>Psiquiatría</option></datalist>
+        </div>
+      </div>
+      <div class="row" style="margin-top:12px">
+        <div><label>Tu respuesta</label><input type="text" id="tuya" placeholder="C"></div>
+        <div><label>Correcta</label><input type="text" id="correcta" placeholder="A"></div>
+        <div style="grid-column:span 2"><label>Motivo</label>
+          <select id="tipo"></select>
+        </div>
+      </div>
+      <div class="row" style="margin-top:12px">
+        <div class="full"><label>Tema / concepto</label><input type="text" id="tema" placeholder="Manejo inicial de hiperkalemia con cambios en ECG"></div>
+      </div>
+      <div class="row" style="margin-top:12px">
+        <div class="full"><label>Nota / acción correctiva (opcional)</label><textarea id="accion" placeholder="Qué voy a hacer distinto"></textarea></div>
+      </div>
+      <div class="actions"><button type="submit" class="btn primary">➕ Agregar</button></div>
+    </form>
+  </details>
+
   <p class="sub" style="margin-top:14px">Los datos viven solo en este navegador (localStorage). Exportá el CSV para respaldarlos o llevarlos a otra compu.</p>
 </div>
 
 <script>
-const KEY='registro_errores_v1';
-const TIPOS={nosabia:["No sabía","t-nosabia"],leimal:["Leí mal","t-leimal"],agresiva:["Opción agresiva","t-agresiva"],calculo:["Cálculo/umbral","t-calculo"],interpret:["Interpretación","t-interpret"]};
-let data=JSON.parse(localStorage.getItem(KEY)||'[]');
+const KEY='registro_errores_v2', SEED_FLAG='registro_seeded_caba2026_v2';
+const TIPOS={
+  apurado:["Por apurado 😅","t-apurado","var(--orange)"],
+  leimal:["Leí mal la consigna","t-leimal","var(--warn)"],
+  agresiva:["Opción agresiva","t-agresiva","var(--accent)"],
+  nosabia:["No sabía","t-nosabia","var(--bad)"],
+  calculo:["Cálculo / umbral","t-calculo","var(--ok)"],
+  interpret:["Interpretación clínica","t-interpret","#b9b9d6"]
+};
+const PRESET=[
+  ["Q6","Ginecología","A","B","Vacuna VPH post-tratamiento de HSIL (esquema 3 dosis)"],
+  ["Q9","Ginecología","D","C","Tamizaje mama: RT torácica 10–30a = alto riesgo → RM"],
+  ["Q11","Cirugía / Urología","C","A","HBP sintomática → α-bloqueante (sin biopsia)"],
+  ["Q13","Obstetricia","B","D","Sífilis en embarazo: título estable a 6 sem ≠ falla; seguir serología"],
+  ["Q15","Neumonología","C","A","Patrón UIP / FPI → antifibróticos (no corticoide+azatioprina)"],
+  ["Q16","Cirugía","C","D","Apendicitis en adulto: el estudio que confirma es la TC con contraste"],
+  ["Q20","Gastroenterología","C","D","Banderas rojas → videocolonoscopía (no es SII)"],
+  ["Q26","Gastroenterología","B","D","Ascitis cirrótica (GASA ≥1,1) → espironolactona + restricción Na"],
+  ["Q32","Cirugía","D","C","Pancreatitis necrosante infectada → drenaje percutáneo (step-up)"],
+  ["Q33","Clínica / Adicciones","A","B","Cesación tabáquica + epilepsia → TRN (bupropión contraindicado)"],
+  ["Q37","Psiquiatría","A","B","Trastorno de pánico vs ansiedad generalizada"],
+  ["Q39","Pediatría","A","C","Anafilaxia → adrenalina IM + O₂"],
+  ["Q41","Cardiología","C","A","FA aguda estable → control de frecuencia (betabloq) + anticoagulación"],
+  ["Q46","Gastroenterología","A","C","HDA con shock → reanimar (cristaloides + sangre) antes de endoscopía"],
+  ["Q49","Cardiología","D","B","Prevención 2ª post-IAM → estatina de alta intensidad"],
+  ["Q53","Nefrología / Medio interno","B","D","Hiperkalemia con ECG → gluconato de calcio primero"],
+  ["Q59","Cardiología","C","A","HTA oculta (consultorio normal + MAPA elevado)"],
+  ["Q60","Ginecología","C","B","BRCA1 → RM mamaria con contraste anual"],
+  ["Q61","Cardiología","A","B","HTA grado 2 → combinación de 2 fármacos a dosis bajas"],
+  ["Q65","Cardiología","D","B","Angina estable → tratamiento médico óptimo (no ICP)"],
+  ["Q66","Pediatría","A","D","Bronquiolitis con hipoxemia → O₂/soporte (no ATB)"],
+  ["Q68","Pediatría","B","D","Chupete al inicio de cada período de sueño (SAP)"],
+  ["Q72","Pediatría","D","B","ITU → urocultivo + ATB empírico sin demorar"],
+  ["Q75","Salud Pública / Epi","C","D","Aleatorización = comparabilidad basal"],
+  ["Q76","Neumonología","A","D","Derrame paraneumónico bacteriano no complicado (Light)"],
+  ["Q77","Pediatría","D","B","Crup leve → corticoide oral"],
+  ["Q80","Ginecología","C","A","Densitometría adelantada por factores de riesgo (FASGO)"],
+  ["Q84","Pediatría","C","A","Anemia severa + hipoxemia → transfusión"],
+  ["Q87","Reumatología","B","D","Osteoartrosis = diagnóstico clínico (sin imágenes de rutina)"],
+  ["Q89","Cirugía","B","C","Diverticulitis aguda → TC (colonoscopía recién a las 6 sem)"],
+  ["Q90","Pediatría","B","D","Sinovitis transitoria de cadera → ecografía"],
+  ["Q96","Pediatría","C","B","Enterobiasis (oxiuros)"]
+];
+function presetRows(){return PRESET.map(p=>({fecha:"2026-04-28",fuente:"Examen Residencias CABA 2026",num:p[0],area:p[1],tuya:p[2],correcta:p[3],tema:p[4],tipo:"",accion:""}))}
+
+let data=JSON.parse(localStorage.getItem(KEY)||'null');
+if(data===null && !localStorage.getItem(SEED_FLAG)){data=presetRows();localStorage.setItem(KEY,JSON.stringify(data));localStorage.setItem(SEED_FLAG,'1');}
+if(data===null)data=[];
+
 const $=id=>document.getElementById(id);
-function save(){localStorage.setItem(KEY,JSON.stringify(data));render()}
-function esc(s){return (s||'').replace(/[<>&]/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;'}[c]))}
+function persist(){localStorage.setItem(KEY,JSON.stringify(data))}
+function save(){persist();render()}
+function esc(s){return (s||'').replace(/[<>&"]/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c]))}
+function tipoOptions(sel){
+  let o='<option value="">— elegí motivo —</option>';
+  for(const k in TIPOS)o+=`<option value="${k}"${k===sel?' selected':''}>${TIPOS[k][0]}</option>`;
+  return o;
+}
 
 function render(){
   const tb=$('rows');
-  if(!data.length){tb.innerHTML='<tr><td colspan="8" class="empty">Todavía no cargaste errores. Empezá con los del último simulacro.</td></tr>';}
+  if(!data.length){tb.innerHTML='<tr><td colspan="7" class="empty">Sin registros. Recargá las 32 del examen o agregá uno nuevo.</td></tr>';}
   else{
-    tb.innerHTML=data.map((d,i)=>{
-      const t=TIPOS[d.tipo]||["—","muted"];
-      return `<tr>
-        <td class="muted">${esc(d.fecha)}</td>
-        <td>${esc(d.num)}</td>
-        <td>${esc(d.area)}</td>
-        <td>${esc(d.tema)}</td>
-        <td><span style="color:var(--bad)">${esc(d.tuya)}</span> → <span style="color:var(--ok)">${esc(d.correcta)}</span></td>
-        <td><span class="pill ${t[1]}">${t[0]}</span></td>
-        <td>${esc(d.accion)}</td>
-        <td><button class="del" data-i="${i}" title="Eliminar">✕</button></td>
-      </tr>`;
-    }).join('');
+    tb.innerHTML=data.map((d,i)=>`<tr class="${d.tipo?'':'unset'}">
+      <td>${esc(d.num)}</td>
+      <td>${esc(d.area)}</td>
+      <td class="tema">${esc(d.tema)}</td>
+      <td><span class="ta">${esc(d.tuya)}</span> → <span class="ok2">${esc(d.correcta)}</span></td>
+      <td><select class="intipo ${d.tipo?'':'t0'}" data-i="${i}">${tipoOptions(d.tipo)}</select></td>
+      <td><input class="inmotivo" data-i="${i}" value="${esc(d.accion)}" placeholder="opcional"></td>
+      <td><button class="del" data-i="${i}" title="Eliminar">✕</button></td>
+    </tr>`).join('');
+    tb.querySelectorAll('.intipo').forEach(s=>s.onchange=()=>{data[+s.dataset.i].tipo=s.value;save()});
+    tb.querySelectorAll('.inmotivo').forEach(inp=>inp.oninput=()=>{data[+inp.dataset.i].accion=inp.value;persist()});
     tb.querySelectorAll('.del').forEach(b=>b.onclick=()=>{data.splice(+b.dataset.i,1);save()});
   }
-  // stats
-  const byTipo={};data.forEach(d=>byTipo[d.tipo]=(byTipo[d.tipo]||0)+1);
-  const byArea={};data.forEach(d=>{if(d.area)byArea[d.area]=(byArea[d.area]||0)+1});
+  const byTipo={};data.forEach(d=>{if(d.tipo)byTipo[d.tipo]=(byTipo[d.tipo]||0)+1)});
+  const byArea={};data.forEach(d=>{if(d.area)byArea[d.area]=(byArea[d.area]||0)+1)});
+  const sinClasif=data.filter(d=>!d.tipo).length;
   const topArea=Object.entries(byArea).sort((a,b)=>b[1]-a[1])[0];
   const topTipo=Object.entries(byTipo).sort((a,b)=>b[1]-a[1])[0];
   $('stats').innerHTML=
-    `<div class="stat"><b>${data.length}</b>errores cargados</div>`+
-    (topTipo?`<div class="stat"><b>${TIPOS[topTipo[0]][0]} (${topTipo[1]})</b>tipo más frecuente</div>`:'')+
+    `<div class="stat"><b>${data.length}</b>errores</div>`+
+    `<div class="stat"><b style="color:var(--warn)">${sinClasif}</b>sin motivo aún</div>`+
+    (topTipo?`<div class="stat"><b style="color:${TIPOS[topTipo[0]][2]}">${TIPOS[topTipo[0]][0]} (${topTipo[1]})</b>motivo más frecuente</div>`:'')+
     (topArea?`<div class="stat"><b>${esc(topArea[0])} (${topArea[1]})</b>área más floja</div>`:'');
 }
 
+$('tipo').innerHTML=tipoOptions('apurado');
 $('f').onsubmit=e=>{
   e.preventDefault();
   data.unshift({fecha:$('fecha').value||new Date().toISOString().slice(0,10),fuente:$('fuente').value,num:$('num').value,area:$('area').value,tuya:$('tuya').value,correcta:$('correcta').value,tipo:$('tipo').value,tema:$('tema').value,accion:$('accion').value});
@@ -146,27 +201,31 @@ $('f').onsubmit=e=>{
   $('num').focus();
 };
 
-function download(name,content,type){
-  const blob=new Blob([content],{type});const u=URL.createObjectURL(blob);
-  const a=document.createElement('a');a.href=u;a.download=name;a.click();URL.revokeObjectURL(u);
-}
+$('recargar').onclick=()=>{
+  const have=new Set(data.filter(d=>d.fuente==='Examen Residencias CABA 2026').map(d=>d.num));
+  const add=presetRows().filter(r=>!have.has(r.num));
+  if(!add.length)return alert('Las 32 del examen ya están cargadas.');
+  data=add.concat(data);save();
+  alert(`Agregadas ${add.length} preguntas del examen.`);
+};
+
+function download(name,content,type){const b=new Blob([content],{type});const u=URL.createObjectURL(b);const a=document.createElement('a');a.href=u;a.download=name;a.click();URL.revokeObjectURL(u)}
 function csvCell(s){return '"'+String(s||'').replace(/"/g,'""')+'"'}
 $('exportar').onclick=()=>{
   if(!data.length)return alert('No hay datos para exportar.');
-  const head=['fecha','fuente','num','area','tu_respuesta','correcta','tipo','tema','causa_accion'];
+  const head=['fecha','fuente','num','area','tu_respuesta','correcta','motivo','tema','nota'];
   const rows=data.map(d=>[d.fecha,d.fuente,d.num,d.area,d.tuya,d.correcta,(TIPOS[d.tipo]||['',''])[0],d.tema,d.accion].map(csvCell).join(','));
   download('registro-errores.csv','﻿'+head.join(',')+'\n'+rows.join('\n'),'text/csv;charset=utf-8');
 };
 $('anki').onclick=()=>{
   if(!data.length)return alert('No hay datos para exportar.');
-  // Frente: tema/pregunta · Dorso: correcta + acción. Separado por tab para importar en Anki.
   const rows=data.map(d=>[
     (d.tema||d.num||'Pregunta')+(d.area?` (${d.area})`:''),
-    `Correcta: ${d.correcta||'—'} (tu respuesta: ${d.tuya||'—'})<br>${esc(d.accion)}`
+    `Correcta: ${d.correcta||'—'} (tu respuesta: ${d.tuya||'—'})`+(d.tipo?` · motivo: ${TIPOS[d.tipo][0]}`:'')+(d.accion?`<br>${esc(d.accion)}`:'')
   ].map(c=>String(c).replace(/\t/g,' ')).join('\t'));
   download('errores-anki.txt',rows.join('\n'),'text/plain;charset=utf-8');
 };
-$('limpiar').onclick=()=>{if(confirm('¿Borrar todos los registros de este navegador?')){data=[];save()}};
+$('limpiar').onclick=()=>{if(confirm('¿Borrar TODOS los registros de este navegador (incluidas las 32 del examen)?')){data=[];persist();render()}};
 
 $('fecha').value=new Date().toISOString().slice(0,10);
 render();
