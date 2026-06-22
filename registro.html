@@ -50,7 +50,7 @@
 <div class="wrap">
   <a class="back" href="index.html">← Volver al inicio</a>
   <h1>🗒️ Registro de errores</h1>
-  <p class="sub">Las 32 de este examen ya vienen cargadas. Solo elegí el <b>motivo</b> en cada fila (incluido "por apurado" 😅). Para otros simulacros, usá el formulario de abajo.</p>
+  <p class="sub">Las 32 de este examen ya vienen cargadas. Solo elegí el <b>motivo</b> en cada fila. Para otros simulacros, usá el formulario de abajo.</p>
 
   <div class="why">
     💡 <b>Lo que más corrige es el <i>tipo</i> de error, no el tema.</b> Marcá honesto: "por apurado" y "leí mal" se arreglan bajando el ritmo y subrayando la consigna; "opción agresiva" con la regla de conservador-primero; "no sabía" estudiando. Mirá abajo cuál es tu motivo más frecuente.
@@ -180,8 +180,8 @@ function render(){
     tb.querySelectorAll('.inmotivo').forEach(inp=>inp.oninput=()=>{data[+inp.dataset.i].accion=inp.value;persist()});
     tb.querySelectorAll('.del').forEach(b=>b.onclick=()=>{data.splice(+b.dataset.i,1);save()});
   }
-  const byTipo={};data.forEach(d=>{if(d.tipo)byTipo[d.tipo]=(byTipo[d.tipo]||0)+1)});
-  const byArea={};data.forEach(d=>{if(d.area)byArea[d.area]=(byArea[d.area]||0)+1)});
+  const byTipo={};data.forEach(d=>{if(d.tipo)byTipo[d.tipo]=(byTipo[d.tipo]||0)+1});
+  const byArea={};data.forEach(d=>{if(d.area)byArea[d.area]=(byArea[d.area]||0)+1});
   const sinClasif=data.filter(d=>!d.tipo).length;
   const topArea=Object.entries(byArea).sort((a,b)=>b[1]-a[1])[0];
   const topTipo=Object.entries(byTipo).sort((a,b)=>b[1]-a[1])[0];
