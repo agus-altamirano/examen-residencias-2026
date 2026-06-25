@@ -30,6 +30,16 @@
   .stats{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
   .stat{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:9px 14px;font-size:13px}
   .stat b{font-size:18px;display:block}
+  .breakdowns{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
+  @media(max-width:680px){.breakdowns{grid-template-columns:1fr}}
+  .bd{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+  .bd h3{margin:0 0 10px;font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+  .bdrow{display:grid;grid-template-columns:130px 1fr 30px;align-items:center;gap:8px;margin:6px 0;font-size:13px}
+  .bdrow .lbl{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .bdrow .track{background:var(--card2);border-radius:6px;height:10px;overflow:hidden}
+  .bdrow .fill{height:10px;border-radius:6px;min-width:2px}
+  .bdrow .cnt{text-align:right;font-weight:700}
+  .bd .none{color:var(--muted);font-size:13px}
   .scroller{overflow-x:auto;border:1px solid var(--line);border-radius:12px}
   table{width:100%;border-collapse:collapse;font-size:13px;min-width:880px}
   th,td{text-align:left;padding:7px 9px;border-bottom:1px solid var(--line);vertical-align:middle}
@@ -64,6 +74,8 @@
   </div>
 
   <div class="stats" id="stats"></div>
+
+  <div class="breakdowns" id="breakdowns"></div>
 
   <div class="scroller">
     <table>
@@ -190,7 +202,19 @@ function render(){
     `<div class="stat"><b style="color:var(--warn)">${sinClasif}</b>sin motivo aún</div>`+
     (topTipo?`<div class="stat"><b style="color:${TIPOS[topTipo[0]][2]}">${TIPOS[topTipo[0]][0]} (${topTipo[1]})</b>motivo más frecuente</div>`:'')+
     (topArea?`<div class="stat"><b>${esc(topArea[0])} (${topArea[1]})</b>área más floja</div>`:'');
+
+  const tipoEntries=Object.keys(TIPOS).map(k=>[k,byTipo[k]||0]).sort((a,b)=>b[1]-a[1]);
+  const maxT=Math.max(1,sinClasif,...tipoEntries.map(e=>e[1]));
+  let tipoHTML=tipoEntries.map(([k,n])=>bdRow(TIPOS[k][0],n,maxT,TIPOS[k][2])).join('');
+  tipoHTML+=bdRow('Sin motivo',sinClasif,maxT,'var(--muted)');
+  const areaEntries=Object.entries(byArea).sort((a,b)=>b[1]-a[1]);
+  const maxA=Math.max(1,...areaEntries.map(e=>e[1]));
+  const areaHTML=areaEntries.length?areaEntries.map(([a,n])=>bdRow(esc(a),n,maxA,'var(--accent)')).join(''):'<div class="none">Todavía sin datos.</div>';
+  $('breakdowns').innerHTML=
+    `<div class="bd"><h3>Por motivo</h3>${tipoHTML}</div>`+
+    `<div class="bd"><h3>Por área</h3>${areaHTML}</div>`;
 }
+function bdRow(lbl,n,max,color){const w=Math.round(n/max*100);return `<div class="bdrow"><span class="lbl">${lbl}</span><span class="track"><span class="fill" style="width:${w}%;background:${color}"></span></span><span class="cnt">${n}</span></div>`}
 
 $('tipo').innerHTML=tipoOptions('apurado');
 $('f').onsubmit=e=>{
